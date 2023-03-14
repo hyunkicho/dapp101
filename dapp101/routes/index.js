@@ -18,7 +18,7 @@ router.get("/token", function (req, res, next) {
   res.render("token", { title: "nft tutordfial" });
 });
 
-router.get("/vote", function (req, res, next) {
-  res.render("vote", { title: "nft tutordfial" });
-});
+// router.get("/vote", function (req, res, next) {
+//   res.render("vote", { title: "nft tutordfial"});
+// });
 module.exports = router;
