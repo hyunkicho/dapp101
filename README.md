@@ -1,4 +1,4 @@
-# dapp101
+# dapp101 설계
 repo for a dapp developer. basic tutorial with token, nft, dao, multisig
 
 1. 전체 구조 그려보기
@@ -74,7 +74,7 @@ sequenceDiagram
 https://mermaid.live/edit#pako:eNqFUrFuwyAQ_ZUTc2w1Xip5iNSoS4YsrbpUXs5wtlFsoBhaWVH-vUdcO1KrqCxwx3uPd9ydhbSKRClG-ohkJD1rbD0OlQFeKIP1EEfyc-zQBy21QxPgi2qHLf29kNYEz0zAEcjLx2K7pmZw0oNst1skoISnHOo4gWlYV4cOgj2RmdELKBFWaWZk2xzQOW8_6R9gkcOg2VhSR6OgpZCMFQ937eyZMcGtvDvS--RBdiRPUGOP_Hur_rWAt5fDzF852a93kjelR9fjXPzBNLb6KTztYiMG8gNqxS06p3wlQkcDVaLko6IGYx8qUZkLQzEG-zoZKcrgI21EdArD0lFRNtiPnOUmvVt7i0lp7vJxHoPrNFy-AQNVrr0
 
 
-1. 시퀀스 다이어그램 작성해보기 - DAO
+4. 시퀀스 다이어그램 작성해보기 - DAO
 
 DAO안건을 제안하고 투표하고 확인해 본다.
 
@@ -92,4 +92,84 @@ sequenceDiagram
     contract -->> webpage : C-2. display proposal Info
 ```
 https://mermaid.live/edit#pako:eNp9ksFOwzAMhl_FynmtBMceJsGQEAdOTAihXEzibtHaJCTOxjTt3UlWukqgkkti-_-_JLJPQjlNohGRPhNZRQ8GNwF7aSEvVOwCpEhhiD0GNsp4tAwH-vC4ob8F5SyH7ASM8Oj2loLNkDE76AsSquVypEADdzX44Hz8IY6FIroSs6q6KTrvIsH6bRZ2X0OkjsojrAaFkWHv-H909hTha9bB-msWvaphb-gA0-dneKvyVLUltbt8zEXsIDJyioPtKq1-XVDd1qBN9B0eJ-eTbZ20g7PsYiF6Cj0anZt3KnkpeEs9SdHko6YWU8dSSHvOUkzsXo5WiYZDooVIXiOPvRZNi13M2dy-d-emmLTJ_X8eBuQyJ-dvGl-4-g
+
+# ERC20 Token
+1. ERC20 토큰을 발행하기 위해 지정해야 하는 사항들
+
+ERC20 토큰 발행은 매우 간단하지만 실제로 발행할 때는 다음 사항들을 고려해야 합니다.
+    - symbol
+    - name 
+    - decimal (특별한 이유가 없으면 18, 그러나 토큰 종류에 따라 스테이블 코인 또는 디파이에 쓰이는 토큰들은 6, 8, 10 등이 있기도 하다.) 
+    - totalSupply & cap (총 발행량 지정 여부에 따라 최대 발행량을 정해둘 시)
+    - airdrop 초기에 유저들에게 mint를 반복으로 시행해서 토큰을 나눠줄 경우
+    - time lock 토큰을 보내주되 특정 시간 이후에 전송이 되도록 하는 경우 (락업 기능)
+    - pause (토큰 전체 정지 기능)
+    - freeze (특정 계정 정지 기능)
+    - multisig (관리자 권한을 멀티시그 지갑으로 다룰지에 대한 여부)
+    - token Image (이더 스캔 등에 등록할 이미지)
+
+저희가 다룰 토큰의 경우를 생각해서 지정해 보도록 하겠습니다.
+토큰 판매의 경우 요즘에는 swap 기능을 만들어서 바꿔주는 경우가 많습니다.
+하지만 이번 실습의 경우 erc20 토큰에 교환비를 지정해서 이더리움을 받으면 토큰을 보내주는 구조로 진행하도록 하겠습니다.
+
+   기본 정보
+    - symbol : TT
+    - name : TestToken
+    - decimal :18
+    - 교환비 : 1TT = 0.001ETH (1 TestToken은 0.001 ETH, 1 이더리움으로 testToken 1000개 구매 가능)
+
+2. 프론트엔드 - boot strap 사용해보기
+
+
+
+3. html에 메타바스크 연동해 보기
+    출저 : https://docs.metamask.io/guide/sending-transactions.html#example
+
+    지갑 연결 및 트랜잭션 전송의 경우 위의 메타마스크 공식 문서에서 기본 틀을 가져와서 사용하도록 하겠습니다.
+
+    html (ejs)
+    ```
+        <button class="enableEthereumButton btn">Enable Ethereum</button>
+        <button class="sendEthButton btn">Send Eth</button>
+    ```
+
+    javascript
+    ```
+        const ethereumButton = document.querySelector('.enableEthereumButton');
+        const sendEthButton = document.querySelector('.sendEthButton');
+
+        let accounts = [];
+
+        //Sending Ethereum to an address
+        sendEthButton.addEventListener('click', () => {
+        ethereum
+            .request({
+            method: 'eth_sendTransaction',
+            params: [
+                {
+                from: accounts[0],
+                to: '0x2f318C334780961FB129D2a6c30D0763d9a5C970',
+                value: '0x29a2241af62c0000',
+                gasPrice: '0x09184e72a000',
+                gas: '0x2710',
+                },
+            ],
+            })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error(error));
+        });
+
+        ethereumButton.addEventListener('click', () => {
+        getAccount();
+        });
+
+        async function getAccount() {
+        accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        }
+    ```
+
+    트랜잭션을 보내려면 위의 코드 중 params 부분을 상황에 맞게 바꾸어서 진행하면 됩니다.
+    javascripts의 crypto.js를 보면 data가 주가 되어 있는데 data를 만들어서 클릭시에 트랜잭션을 보내주면 되게 됩니다.
+
+    
 

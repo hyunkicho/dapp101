@@ -22,6 +22,16 @@
             </p>
             <div class="mb-3">
               <label for="formGroupExampleInput2" class="form-label"
+                >TOKEN ADDRESS</label
+              >
+              <input
+                type="text"
+                class="form-control contract"
+                placeholder="ENTER TOKEN NAME"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="formGroupExampleInput2" class="form-label"
                 >NAME</label
               >
               <input
@@ -43,19 +53,30 @@
             </div>
             <div class="mb-3">
               <label for="formGroupExampleInput2" class="form-label"
-                >AMOUNT</label
+                >ETH TO SEND</label
               >
               <input
                 type="text"
-                class="form-control"
+                class="form-control ethValue"
                 id="formGroupExampleInput2"
                 placeholder="NUMBER OF TOKEN"
               />
             </div>
 
+            <div class="mb-3">
+              <label for="formGroupExampleInput2" class="form-label"
+                >DATA</label
+              >
+              <input
+                type="text"
+                class="form-control data"
+                id="formGroupExampleInput2"
+            />
+            </div>
+
             <div class="form-group">
-              <button class="btn btn-primary" type="submit">판매 등록</button>
               <button class="btn btn-secondary" type="reset">초기화</button>
+              <button class="btn btn-primary myModal" type="button">판매 등록</button>
             </div>
           </div>
         </div>
