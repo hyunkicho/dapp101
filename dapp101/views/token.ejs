@@ -8,7 +8,7 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/styles.css" />
   </head>
   <body>
     <!-- 메인 내용 부분 -->
@@ -20,71 +20,60 @@
             <p class="text-center mb-4">
               아래의 양식에 필요한 정보를 입력해주세요.
             </p>
-            <div class="mb-3">
-              <label for="formGroupExampleInput2" class="form-label"
-                >TOKEN ADDRESS</label
-              >
-              <input
-                type="text"
-                class="form-control contract"
-                placeholder="ENTER TOKEN NAME"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="formGroupExampleInput2" class="form-label"
-                >NAME</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                placeholder="ENTER TOKEN NAME"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="formGroupExampleInput2" class="form-label"
-                >PRICE</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="formGroupExampleInput2"
-                placeholder="ENTER TOKEN PRICE(ETH)"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="formGroupExampleInput2" class="form-label"
-                >ETH TO SEND</label
-              >
-              <input
-                type="text"
-                class="form-control ethValue"
-                id="formGroupExampleInput2"
-                placeholder="NUMBER OF TOKEN"
-              />
-            </div>
 
-            <div class="mb-3">
-              <label for="formGroupExampleInput2" class="form-label"
-                >DATA</label
-              >
-              <input
-                type="text"
-                class="form-control data"
-                id="formGroupExampleInput2"
-            />
-            </div>
+            <form id="tokenForm">
+              <div class="mb-3">
+                <label for="inputValueName" class="form-label">NAME</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ENTER TOKEN NAME"
+                  id="inputValueName"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="inputValuePrice" class="form-label">PRICE</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputValuePrice"
+                  placeholder="ENTER TOKEN PRICE(ETH)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="inputValueAmount" class="form-label">AMOUNT</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputValueAmount"
+                  placeholder="NUMBER OF TOKEN"
+                />
+              </div>
 
-            <div class="form-group">
+              <button class="btn btn-primary" type="submit">판매 등록</button>
               <button class="btn btn-secondary" type="reset">초기화</button>
-              <button class="btn btn-primary myModal" type="button">판매 등록</button>
-            </div>
+            </form>
           </div>
         </div>
       </section>
     </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#tokenForm").submit(function (event) {
+          event.preventDefault();
+          let input1 = $("#inputValueName").val();
+          let input2 = $("#inputValuePrice").val();
+          let input3 = $("#inputValueAmount").val();
+          console.log("Name:", input1);
+          console.log("Price:", input2);
+          console.log("Amount:", input3);
+        });
+      });
+    </script>
 
     <!-- 필요한 JavaScript 파일들을 추가합니다 -->
-    <script src="/javascripts/script.js"></script>
+    <script src="/javascripts/scripts.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
