@@ -23,34 +23,34 @@
 
             <form id="tokenForm">
               <div class="mb-3">
-                <label for="inputValueName" class="form-label">NAME</label>
+                <label for="addressFromWallet" class="form-label">지갑주소</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control reaonly"
                   placeholder="ENTER TOKEN NAME"
-                  id="inputValueName"
+                  id="addressFromWallet"
                 />
               </div>
               <div class="mb-3">
-                <label for="inputValuePrice" class="form-label">PRICE</label>
+                <label for="inputEthAmount" class="form-label">보내는 이더리움 개수</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="inputValuePrice"
+                  id="inputEthAmount"
                   placeholder="ENTER TOKEN PRICE(ETH)"
                 />
               </div>
               <div class="mb-3">
-                <label for="inputValueAmount" class="form-label">AMOUNT</label>
+                <label for="inputTokenAmount" class="form-label">받는 토큰의 양</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="inputValueAmount"
+                  id="inputTokenAmount"
                   placeholder="NUMBER OF TOKEN"
                 />
               </div>
-
-              <button class="btn btn-primary" type="submit">판매 등록</button>
+              <button class="btn btn-primary" type="button" id="checkbtn">받을 토큰 양 조회</button>
+              <button class="btn btn-primary" type="button" id="sendTXbtn">판매 등록</button>
               <button class="btn btn-secondary" type="reset">초기화</button>
             </form>
           </div>
@@ -58,30 +58,73 @@
       </section>
     </main>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="javascripts/crypto.js"></script>
+    <script src="src/abi/constant.js"></script>
+    <script src="src/abi/MyERC20.js"></script>
+    <script src="src/utils/noExponents.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+    type="application/javascript"></script>
     <script>
-      $(document).ready(function () {
-        $("#tokenForm").submit(function (event) {
-          event.preventDefault();
-          let input1 = $("#inputValueName").val();
-          let input2 = $("#inputValuePrice").val();
-          let input3 = $("#inputValueAmount").val();
-          console.log("Name:", input1);
-          console.log("Price:", input2);
-          console.log("Amount:", input3);
+    $(document).ready(async function () {
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      $("#addressFromWallet").val( accounts[0]);
+      $("#checkbtn").click(async function (event){
+        event.preventDefault();
+          let EthAmount = $("#inputEthAmount").val();
+          let TokenAmount = $("#inputTokenAmount").val();
+          let abi = JSON.parse(JSON.stringify(MYERC20.abi))
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const erc20Token = new ethers.Contract(ERC20, abi, signer)
+          const ether_amount = noExponents((EthAmount*10**18).toString());
+          const exchangeAmount = await erc20Token.getExchangeRate(ether_amount)
+          $("#inputTokenAmount").val(exchangeAmount.toString());
+      });
+
+      $("#sendTXbtn").click(async function (event) {
+        event.preventDefault();
+          let EthAmount = $("#inputEthAmount").val();
+          let TokenAmount = $("#inputTokenAmount").val();
+
+          let abi = JSON.parse(JSON.stringify(MYERC20.abi))
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const erc20Token = new ethers.Contract(ERC20, abi, signer)
+          const ether_amount = noExponents((EthAmount*10**18).toString());
+          const hex_value = parseInt((EthAmount*10**18)).toString(16);
+          // console.log("ether_amount >>", ether_amount)
+          // console.log("ether_amount.toString(16) >>", parseInt((EthAmount*10**18)).toString(16));
+          // console.log("hexToDecimal ", parseInt(parseInt((EthAmount*10**18)).toString(16),16));
+          const exchangeAmount = await erc20Token.getExchangeRate(ether_amount);
+          $("#inputTokenAmount").val(exchangeAmount.div(noExponents((10**18).toString())).toString());
+          const estimation = await erc20Token.estimateGas.buyToken({value: ether_amount});
+          transferCalldata = erc20Token.interface.encodeFunctionData("buyToken");
+          console.log("transferCalldata >>", transferCalldata);
+          let data = 
+          ethereum
+          .request({
+            method: "eth_sendTransaction",
+            params: [
+              {
+                from: accounts[0],
+                to: ERC20,
+                value: hex_value,
+                data:  transferCalldata,
+              }
+            ],
+          })
+          .then((txHash) => console.log(txHash))
+          .catch((error) => console.error(error));        
         });
       });
     </script>
-
     <!-- 필요한 JavaScript 파일들을 추가합니다 -->
-    <script src="/javascripts/scripts.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="javascripts/scripts.js"></script>
-    <script src="javascripts/crypto.js"></script>
-    <script src="javascripts/jsgrid.js"></script>
+
   </body>
 </html>

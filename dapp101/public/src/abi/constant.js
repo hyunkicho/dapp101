@@ -1,0 +1,2 @@
+const ERC20 = "0xBA6888deb0Be95136f69D2003ba2C5E1e172364d";
+//bsc testnet
