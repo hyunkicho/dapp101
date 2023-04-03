@@ -22,7 +22,9 @@
 
             <form id="tokenForm">
               <div class="mb-3">
-                <label for="addressFromWallet" class="form-label">지갑주소</label>
+                <label for="addressFromWallet" class="form-label"
+                  >지갑주소</label
+                >
                 <input
                   type="text"
                   class="form-control reaonly"
@@ -31,7 +33,9 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="inputEthAmount" class="form-label">보내는 이더리움 개수</label>
+                <label for="inputEthAmount" class="form-label"
+                  >보내는 이더리움 개수</label
+                >
                 <input
                   type="text"
                   class="form-control"
@@ -40,7 +44,9 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="inputTokenAmount" class="form-label">받는 토큰의 양</label>
+                <label for="inputTokenAmount" class="form-label"
+                  >받는 토큰의 양</label
+                >
                 <input
                   type="text"
                   class="form-control"
@@ -48,16 +54,33 @@
                   placeholder="NUMBER OF TOKEN"
                 />
               </div>
-              <button class="btn btn-primary" type="button" id="checkbtn">받을 토큰 양 조회</button>
-              <button class="btn btn-primary" type="button" id="sendTXbtn">판매 등록</button>
-              <button class="btn btn-primary" type="button" id="eventbtn">내역 조회</button>
+              <div class="mb-3">
+                <button class="btn btn-primary" type="button" id="checkbtn">
+                  받을 토큰 양 조회
+                </button>
+                <button class="btn btn-primary" type="button" id="eventbtn">
+                  내역 조회
+                </button>
+                <button class="btn btn-primary" type="button" id="sendTXbtn">
+                  판매 등록
+                </button>
+                <button class="btn btn-secondary" type="reset">초기화</button>
+              </div>
+
               <!-- 여기서는 관리자 지갑 주소로 로그인했을 경우에만 버튼이 뜨도록 실행 -->
-              <button class="btn btn-primary" type="button" id="withdraw">인출하기</button>
-              <button class="btn btn-primary" type="button" id="eventbtn_withdraw">인출 내역 조회</button>
-              <button class="btn btn-secondary" type="reset">초기화</button>
+              <button class="btn btn-primary" type="button" id="withdraw">
+                인출하기
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                id="eventbtn_withdraw"
+              >
+                인출 내역 조회
+              </button>
             </form>
           </div>
-          <div id="jsGrid"></div>
+          <div class="mt-5 mb-3" id="jsGrid"></div>
         </div>
       </section>
     </main>
@@ -66,143 +89,166 @@
     <script src="javascripts/crypto.js"></script>
     <script src="src/abi/MyERC20.js"></script>
     <script src="src/utils/noExponents.js"></script>
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
     <!-- 필요한 JavaScript 파일들을 추가합니다 -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-    
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-    
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
+    ></script>
+
     <!-- 함수들 모음-->
     <script src="javascripts/jsgrid.js"></script>
-  
+
     <script>
       $(document).ready(async function () {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-        let abi = JSON.parse(JSON.stringify(MYERC20.abi))
-        const erc20Token = new ethers.Contract(ERC20, abi, signer)        
-        const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+        let abi = JSON.parse(JSON.stringify(MYERC20.abi));
+        const erc20Token = new ethers.Contract(ERC20, abi, signer);
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
         //checksum address 로 비교해야 한다.
         const accountChecksum = ethers.utils.getAddress(accounts[0]);
         const owner = await erc20Token.owner();
-        console.log("owner is : ", owner)
-        if(owner == accountChecksum) {
-          console.log(" is owner")
-        }else {
-          console.log("not owner")
+        console.log("owner is : ", owner);
+        if (owner == accountChecksum) {
+          console.log(" is owner");
+        } else {
+          console.log("not owner");
           $("#withdraw").addClass("collapse");
           $("#eventbtn_withdraw").addClass("collapse");
         }
-        
+
         $("#eventbtn").click(async function (event) {
           event.preventDefault();
-          let data = await pushERC20Transfer(erc20Token, accounts, provider, abi);
-          console.log("data is >>", data)
+          let data = await pushERC20Transfer(
+            erc20Token,
+            accounts,
+            provider,
+            abi
+          );
+          console.log("data is >>", data);
 
           $("#jsGrid").jsGrid({
             width: "100%",
-            height: "400px",
+            height: "auto",
             sorting: true,
             paging: true,
             data: data,
             fields: [
-                { name: "amount", type: "text", width: 50},
-                { name: "buyer", type: "text", width: 300 },
-                { name: "txhash", type: "text", width: 300 },
-            ]
+              { name: "amount", type: "text", width: 50 },
+              { name: "buyer", type: "text", width: 250 },
+              { name: "txhash", type: "text", width: 300 },
+            ],
           });
         });
-                
+
         $("#eventbtn_withdraw").click(async function (event) {
           event.preventDefault();
           let data = await pushETHwithdraw(erc20Token, accounts, provider, abi);
-          console.log("data is >>", data)
+          console.log("data is >>", data);
 
           $("#jsGrid").jsGrid({
             width: "100%",
-            height: "400px",
+            height: "auto",
             sorting: true,
             paging: true,
             data: data,
             fields: [
-                { name: "amount", type: "text", width: 50},
-                { name: "buyer", type: "text", width: 300 },
-                { name: "txhash", type: "text", width: 300 },
-            ]
+              { name: "amount", type: "text", width: 50 },
+              { name: "buyer", type: "text", width: 250 },
+              { name: "txhash", type: "text", width: 300 },
+            ],
           });
         });
 
-
         $("#withdraw").click(async function (event) {
           event.preventDefault();
-            withdrawCalldata = erc20Token.interface.encodeFunctionData("withdrawAll");
-            console.log("withdrawCalldata >>", withdrawCalldata);
-            let data = 
-            ethereum
+          withdrawCalldata =
+            erc20Token.interface.encodeFunctionData("withdrawAll");
+          console.log("withdrawCalldata >>", withdrawCalldata);
+          let data = ethereum
             .request({
               method: "eth_sendTransaction",
               params: [
                 {
                   from: accounts[0],
                   to: ERC20,
-                  value: '0',
-                  data:  withdrawCalldata,
-                }
+                  value: "0",
+                  data: withdrawCalldata,
+                },
               ],
             })
             //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
             .then((txHash) => alert(txHash))
-            .catch((error) => console.error(error));        
-          });
+            .catch((error) => console.error(error));
+        });
         $("#addressFromWallet").val(accounts[0]);
 
-        $("#checkowner").click(async function (event){
+        $("#checkowner").click(async function (event) {
           event.preventDefault();
-            let EthAmount = $("#inputEthAmount").val();
-            let TokenAmount = $("#inputTokenAmount").val();
-            let abi = JSON.parse(JSON.stringify(MYERC20.abi))
-            const ether_amount = noExponents((EthAmount*10**18).toString());
-            const exchangeAmount = await erc20Token.getExchangeRate(ether_amount)
-            $("#inputTokenAmount").val(exchangeAmount.div(noExponents((10**18).toString())).toString());
+          let EthAmount = $("#inputEthAmount").val();
+          let TokenAmount = $("#inputTokenAmount").val();
+          let abi = JSON.parse(JSON.stringify(MYERC20.abi));
+          const ether_amount = noExponents((EthAmount * 10 ** 18).toString());
+          const exchangeAmount = await erc20Token.getExchangeRate(ether_amount);
+          $("#inputTokenAmount").val(
+            exchangeAmount.div(noExponents((10 ** 18).toString())).toString()
+          );
         });
 
         $("#sendTXbtn").click(async function (event) {
           event.preventDefault();
           let EthAmount = $("#inputEthAmount").val();
           let TokenAmount = $("#inputTokenAmount").val();
-          const ether_amount = noExponents((EthAmount*10**18).toString());
-          const hex_value = parseInt((EthAmount*10**18)).toString(16);
+          const ether_amount = noExponents((EthAmount * 10 ** 18).toString());
+          const hex_value = parseInt(EthAmount * 10 ** 18).toString(16);
           const exchangeAmount = await erc20Token.getExchangeRate(ether_amount);
-          $("#inputTokenAmount").val(exchangeAmount.div(noExponents((10**18).toString())).toString());
-          const estimation = await erc20Token.estimateGas.buyToken({value: ether_amount});
-          transferCalldata = erc20Token.interface.encodeFunctionData("buyToken");
+          $("#inputTokenAmount").val(
+            exchangeAmount.div(noExponents((10 ** 18).toString())).toString()
+          );
+          const estimation = await erc20Token.estimateGas.buyToken({
+            value: ether_amount,
+          });
+          transferCalldata =
+            erc20Token.interface.encodeFunctionData("buyToken");
           console.log("transferCalldata >>", transferCalldata);
-          let data = 
-          ethereum
-          .request({
-            method: "eth_sendTransaction",
-            params: [
-              {
-                from: accounts[0],
-                to: ERC20,
-                value: hex_value,
-                data:  transferCalldata,
-              }
-            ],
-          })
-          .then((txHash) => console.log(txHash))
-          .catch((error) => console.error(error));        
+          let data = ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params: [
+                {
+                  from: accounts[0],
+                  to: ERC20,
+                  value: hex_value,
+                  data: transferCalldata,
+                },
+              ],
+            })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error(error));
         });
-      })
-
-
-
+      });
     </script>
   </body>
 </html>
