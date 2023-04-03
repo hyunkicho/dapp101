@@ -313,10 +313,8 @@ btn-primary, btn-secondary 클래스 등은 버튼의 색상을 나타내는 클
         accounts = await ethereum.request({ method: 'eth_requestAccounts' });
         }
     ```
-
     트랜잭션을 보내려면 위의 코드 중 params 부분을 상황에 맞게 바꾸어서 진행하면 됩니다.
     javascripts의 crypto.js를 보면 data가 주가 되어 있는데 data를 만들어서 클릭시에 트랜잭션을 보내주면 되게 됩니다.
-
 
 4. 기본 토큰 배포하기
 기존에 쓰던 .env파일을 contracts 경로에 그대로 만든다.

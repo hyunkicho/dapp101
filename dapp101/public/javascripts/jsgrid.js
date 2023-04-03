@@ -21,7 +21,7 @@ async function pushERC20Transfer(erc20Token, myAddress, provider, abi) {
             resObj.amount = parsedLog.args.amount.toString();
             resObj.buyer = parsedLog.args.buyer;
             resObj.txhash = logs.transactionHash;
-            clientsERC20.push({"amount": (resObj.amount/(10**18)).toString(), "buyer": resObj.buyer.toString(), "txhash" : resObj.txhash});
+            clientsERC20.push({"amount": (resObj.amount/(10**18)).toString(), "buyer": resObj.buyer, "txhash" : resObj.txhash});
         } else {
           console.log(`this topic is not Transfer`)
         }
@@ -31,7 +31,7 @@ async function pushERC20Transfer(erc20Token, myAddress, provider, abi) {
 }
 
 async function pushETHwithdraw(erc20Token, myAddress, provider, abi) {
-    clientsERC20 = []
+    clientsETH = []
     console.log("pushETHwithdraw")
     const resObj = {}
     const topic = [erc20Token.filters.WithdrawETH().topics].toString();
@@ -40,7 +40,6 @@ async function pushETHwithdraw(erc20Token, myAddress, provider, abi) {
       fromBlock: 28546565,
       topics: [topic]
     };
-    
     const getlogs = await provider.getLogs(filter);
     let iface = new ethers.utils.Interface(abi);
     for (let logs of getlogs) {
@@ -51,11 +50,11 @@ async function pushETHwithdraw(erc20Token, myAddress, provider, abi) {
             resObj.amount = parsedLog.args.amount.toString();
             resObj.buyer = parsedLog.args.buyer;
             resObj.txhash = logs.transactionHash;
-            clientsERC20.push({"amount": (resObj.amount/(10**18)).toString(), "buyer": resObj.buyer.toString(), "txhash" : resObj.txhash});
+            clientsETH.push({"amount": (resObj.amount/(10**18)).toString(), "buyer": resObj.buyer, "txhash" : resObj.txhash});
         } else {
           console.log(`this topic is not Transfer`)
         }
       });
     }
-    return clientsERC20;
+    return clientsETH;
 }
