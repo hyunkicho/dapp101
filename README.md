@@ -174,4 +174,24 @@ ERC20 토큰 발행은 매우 간단하지만 실제로 발행할 때는 다음 
     javascripts의 crypto.js를 보면 data가 주가 되어 있는데 data를 만들어서 클릭시에 트랜잭션을 보내주면 되게 됩니다.
 
 
+4. 기본 토큰 배포하기
+기존에 쓰던 .env파일을 contracts 경로에 그대로 만든다.
+   ```
+    npx hardhat run scripts/deploy.ts --network bsc
+   ```
+
+배포 후에는 배포 된 컨트렉트와 상호작용이 가능한 2가지 요소를 사용한다.
+
+그 첫번째는 컨트렉트 주소이며
+```
+erc20 contract is deployed to 0x39e813A5c0C98066C9c8Ebe1E6a2B23Bf2bE4357
+```
+
+두번째는 abi 파일이다.
+각각 public/src/abi/constant.js와 public/src/abi/MyERC20.js 에 업데이트를 해준다.
+
+5. 프로그램 구동시키기
+
+npm run start를 실행한다. \n
+그 후에는 127.0.0.1:3000/token 에 접속해서 ICO 페이지를 살펴본다.
 
