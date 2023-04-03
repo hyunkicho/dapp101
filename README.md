@@ -341,3 +341,10 @@ erc20 contract is deployed to 0x39e813A5c0C98066C9c8Ebe1E6a2B23Bf2bE4357
 npm run start를 실행한다. \n
 그 후에는 127.0.0.1:3000/token 에 접속해서 ICO 페이지를 살펴본다.
 
+5. NFT 배포하기
+
+```
+hyunkicho@Hyunkiui-MacBookPro contracts % npx hardhat run scripts/deployNft.ts --network bsc
+deploying TestToken contract
+erc721 contract is deployed to 0x77Bbcdaa4956DdD2C22140220467D36f3C145608
+```
