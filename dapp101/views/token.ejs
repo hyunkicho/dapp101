@@ -96,6 +96,8 @@
           console.log(" is owner")
         }else {
           console.log("not owner")
+          $("#withdraw").addClass("collapse");
+          $("#eventbtn_withdraw").addClass("collapse");
         }
         
         $("#eventbtn").click(async function (event) {

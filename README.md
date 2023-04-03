@@ -271,6 +271,10 @@ btn-primary, btn-secondary 클래스 등은 버튼의 색상을 나타내는 클
     출처 : https://docs.metamask.io/guide/sending-transactions.html#example
 
     지갑 연결 및 트랜잭션 전송의 경우 위의 메타마스크 공식 문서에서 기본 틀을 가져와서 사용하도록 하겠습니다.
+
+
+    먼저 해당 예제에서는 바이낸스 체인의 테스트 네트워크를 사용하도록 하겠습니다.
+    https://chainlist.org/chain/97
    
 
     html (ejs)
