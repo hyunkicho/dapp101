@@ -88,6 +88,15 @@
         let abi = JSON.parse(JSON.stringify(MYERC20.abi))
         const erc20Token = new ethers.Contract(ERC20, abi, signer)        
         const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+        //checksum address 로 비교해야 한다.
+        const accountChecksum = ethers.utils.getAddress(accounts[0]);
+        const owner = await erc20Token.owner();
+        console.log("owner is : ", owner)
+        if(owner == accountChecksum) {
+          console.log(" is owner")
+        }else {
+          console.log("not owner")
+        }
         
         $("#eventbtn").click(async function (event) {
           event.preventDefault();
@@ -150,7 +159,8 @@
             .catch((error) => console.error(error));        
           });
         $("#addressFromWallet").val(accounts[0]);
-        $("#checkbtn").click(async function (event){
+
+        $("#checkowner").click(async function (event){
           event.preventDefault();
             let EthAmount = $("#inputEthAmount").val();
             let TokenAmount = $("#inputTokenAmount").val();
