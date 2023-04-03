@@ -122,12 +122,156 @@ ERC20 토큰 발행은 매우 간단하지만 실제로 발행할 때는 다음 
 ```
 2. 프론트엔드 - boot strap 사용해보기
 
+    - sidebar 구현
+    
+    style.css 의 11713줄 참고.
+    ```     
+    #sidebar-wrapper {
+      position: fixed;
+      z-index: 2;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      transition: all 0.4s ease 0s;
+      transform: translateX(250px);
+      background: #1d809f;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-nav {
+      position: absolute;
+      top: 0;
+      width: 250px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sidebar-nav li.sidebar-nav-item a {
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      padding: 15px;
+    }
+
+    .sidebar-nav li a:hover {
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-nav li a:active,
+    .sidebar-nav li a:focus {
+      text-decoration: none;
+    }
+
+    .sidebar-nav > .sidebar-brand {
+      font-size: 1.2rem;
+      background: rgba(52, 58, 64, 0.1);
+      height: 80px;
+      line-height: 50px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      padding-left: 15px;
+    }
+
+    .sidebar-nav > .sidebar-brand a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .sidebar-nav > .sidebar-brand a:hover {
+      color: #fff;
+      background: none;
+    }
+
+    #sidebar-wrapper.active {
+      right: 250px;
+      width: 250px;
+      transition: all 0.4s ease 0s;
+    }
+     ```
+    
+    a:hover는 사용자가 마우스를 해당 링크 위로 올리면 적용되며, 링크의 스타일을 변경할 수 있습니다. 
+    보통 링크 위에 마우스를 올렸을 때 글자색이나 배경색 등이 바뀌는 효과를 줄 때 사용합니다.
+
+    a:active는 사용자가 링크를 클릭하고 있는 동안 적용되며, 링크의 스타일을 변경할 수 있습니다.
+    예를 들어 링크를 클릭할 때 글자색이나 배경색 등이 바뀌는 효과를 줄 때 사용합니다.
+
+-Spacing(Margin,Padding)
+
+마진과 패딩 유틸리티 클래스의 네이밍 규칙을 Bootstrap 공식문서를 참고해서 알아보겠습니다. 
+출처 : https://getbootstrap.com/docs/4.0/utilities/spacing/
+
+{property}{sides}-{size}: 
+마진 또는 패딩을 지정하는데 사용됩니다.
+{property}는 마진 또는 패딩을 의미하는 단어입니다.
+{sides}는 마진 또는 패딩이 적용될 방향을 의미합니다
+{size}는 마진 또는 패딩의 크기를 지정하는데 사용되며, 0에서 5까지의 값을 가질 수 있습니다.
+
+{property}{sides}-{breakpoint}-{size}: 
+뷰포트 크기에 따라 다른 마진 또는 패딩 값을 지정하는데 사용됩니다.
+{breakpoint}는 뷰포트의 크기를 나타내는 단어입니다.
+
+
+밑은 property, sides, size와 같이 클래스 이름의 형식을 설명합니다.
+```
+Where property is one of:
+
+m - for classes that set margin
+p - for classes that set padding
+
+Where sides is one of:
+
+t - for classes that set margin-top or padding-top
+b - for classes that set margin-bottom or padding-bottom
+l - for classes that set margin-left or padding-left
+r - for classes that set margin-right or padding-right
+x - for classes that set both *-left and *-right
+y - for classes that set both *-top and *-bottom
+blank - for classes that set a margin or padding on all 4 sides of the element
+Where size is one of:
+
+0 - for classes that eliminate the margin or padding by setting it to 0
+1 - (by default) for classes that set the margin or padding to $spacer * .25
+2 - (by default) for classes that set the margin or padding to $spacer * .5
+3 - (by default) for classes that set the margin or padding to $spacer
+4 - (by default) for classes that set the margin or padding to $spacer * 1.5
+5 - (by default) for classes that set the margin or padding to $spacer * 3
+auto - for classes that set the margin to auto
+```
+
+-Icons 사용
+Bootstrap Icons 라이브러리에서 제공하는 아이콘을 활용하였습니다. 
+Bootstap Icons 라이브러리는 Bootstrap 5 이상의 버전에서 기본적으로 제공됩니다.
+공식 웹사이트에서 다운로드 및 CDN 링크를 제공하고 있으므로, 쉽게 사용이 가능합니다. 
+출처: https://icons.getbootstrap.kr/
+
+-아코디언 적용
+출처: https://getbootstrap.kr/docs/5.1/components/accordion/
+Bootstrap 공식 문서에서 accordion 기본 틀을 가져와서 사용하도록 하겠습니다.
+아코디언을 클릭하면, 아코디언의 내용을 접기/펼치기가 가능합니다.
+이를 이용하여 nft description에 아코디언을 적용하겠습니다.
+
+-form, button 적용
+출처: https://getbootstrap.com/docs/4.0/components/forms/
+출처: https://getbootstrap.com/docs/4.0/components/buttons/
+
+token 판매 페이지와 vote 페이지에 form을 만들 때 적용합니다.
+
+각각의 input 태그들은 form-control 클래스를 갖게 합니다. 이 클래스는 부트스트랩에서 제공하는 폼 컨트롤 디자인을 적용하는 클래스입니다.
+
+버튼 태그들은 btn 클래스와 각각의 버튼에 맞는 클래스를 가지고 있습니다.
+btn 클래스는 부트스트랩에서 제공하는 버튼 디자인을 적용하는 클래스이며,
+btn-primary, btn-secondary 클래스 등은 버튼의 색상을 나타내는 클래스입니다.
+
 
 
 3. html에 메타바스크 연동해 보기
-    출저 : https://docs.metamask.io/guide/sending-transactions.html#example
+    출처 : https://docs.metamask.io/guide/sending-transactions.html#example
 
     지갑 연결 및 트랜잭션 전송의 경우 위의 메타마스크 공식 문서에서 기본 틀을 가져와서 사용하도록 하겠습니다.
+   
 
     html (ejs)
     ```
