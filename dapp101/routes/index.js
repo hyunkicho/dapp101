@@ -22,14 +22,15 @@ router.get("/nftnumber", (req, res) => {
   res.render("nftnumber");
 });
 
-router.get("/nft", async (req, res) => {
-  let number = req.query.number;
-  const response = await axios.get(
-    `https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/${number}`
-  );
-  const data = response.data;
-  res.render("nft", { data: data });
-});
+// router.get("/nft", async (req, res) => {
+//   res.render("index");
+  // let number = req.query.number;
+  // const response = await axios.get(
+  //   `https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/${number}`
+  // );
+  // const data = response.data;
+  // res.render("nft", { data: data });
+// });
 
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Dapp tutordfial" });

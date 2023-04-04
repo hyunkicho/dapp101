@@ -63,7 +63,7 @@
         <div class="col-sm-6 col-md-4">
           <img
             class="mt-3 img-fluid"
-            src="<%= data.image %>"
+            id="nft-image"
             alt="nft이미지 원하는거 넣으시면 됩니다"
           />
           <div class="col-md-12">
@@ -85,10 +85,8 @@
                 class="accordion-collapse collapse show"
                 aria-labelledby="panelsStayOpen-headingOne"
               >
-                <div class="accordion-body">
-                   <% for(let i=0; i<data.attributes.length; i++) { %>
-                    <p><%= data.attributes[i].trait_type %>: <%= data.attributes[i].value %></p>
-                  <% } %>
+                <div class="accordion-body" id="attributes_accordion">
+            
                 </div>
               </div>
             </div>
@@ -98,7 +96,7 @@
           <p class="mt-3 mb-0 fs-4">NFT</p>
           <div class="row">
             <div class="col-md-12">
-              <p class="fs-1 fw-bolder"><%= data.name %></p>
+              <p class="fs-1 fw-bolder" id="token_name"></p>
             </div>
           </div>
           <div class="row">
@@ -123,8 +121,10 @@
           <button type="button" class="mb-2 btn btn-primary btn-lg">
             BUY NOW !!!
           </button>
+          <button type="button" class="mb-2 btn btn-primary btn-lg" id="getInfo">
+            NEXT ITEM
+          </button>
           <a href="http://127.0.0.1:3000/nftnumber" class="mb-2 btn btn-secondary btn-lg">Go see other NFTs</a>
-      
         </div>
       </div>
       <div class="m-0 row" style>
@@ -136,8 +136,39 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="javascripts/scripts.js"></script>
-    <script src="javascripts/crypto.js"></script>
-    <script src="javascripts/jsgrid.js"></script>
+    <!-- <script src="javascripts/scripts.js"></script> -->
+    <!-- <script src="javascripts/crypto.js"></script> -->
+    <!-- <script src=https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/0> id="tokenData" </script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script> 
+      function getTokenMetaData(tokenId) {
+        $.ajax({
+          type: 'get',
+          url: "nft/nft_metadata",
+          data : {
+            'tokenId' : tokenId
+          },
+          dataType: "json"
+        }).done(function(json) {
+          console.log("json success", json)
+          $("#nft-image").attr("src",json.image);
+          $("#token_name").text(json.name);
+          for(let i=0; i<json.attributes.length; i++) {
+            console.log(json.attributes[i].trait_type)
+            console.log(json.attributes[i].value)
+            $("#attributes_accordion").append(`<p id="attributes">< ${json.attributes[i].trait_type} > : < ${json.attributes[i].value} ></p>`);
+          };
+        })
+      }
+      $(document).ready(async function () {
+        let i=1
+        getTokenMetaData(i);
+        $("#getInfo").click(async function (event) {
+          event.preventDefault();
+          getTokenMetaData(i++);
+        });
+      })
+    </script>
+
   </body>
 </html>
