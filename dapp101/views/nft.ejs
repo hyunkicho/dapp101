@@ -53,12 +53,10 @@
     ></script>
   </head>
   <body>
- 
     <!-- <div class="container-fluid justify-content-md-center">
       <div class="row"> -->
 
     <div class="container">
-     
       <div class="m-0 row justify-content-md-center">
         <div class="col-sm-6 col-md-4">
           <img
@@ -85,9 +83,7 @@
                 class="accordion-collapse collapse show"
                 aria-labelledby="panelsStayOpen-headingOne"
               >
-                <div class="accordion-body" id="attributes_accordion">
-            
-                </div>
+                <div class="accordion-body" id="attributes_accordion"></div>
               </div>
             </div>
           </div>
@@ -118,14 +114,33 @@
             </div>
           </div>
 
-          <button type="button" class="mb-2 btn btn-primary btn-lg">
+          <button type="button" class="m-1 btn btn-secondary btn-lg">
             BUY NOW !!!
           </button>
-          <button type="button" class="mb-2 btn btn-primary btn-lg" id="getInfo">
-            NEXT ITEM
-          </button>
-          <a href="http://127.0.0.1:3000/nftnumber" class="mb-2 btn btn-secondary btn-lg">Go see other NFTs</a>
-        </div>
+         
+          <button
+          type="button"
+          class="m-1 btn btn-primary btn-lg"
+          id="getInfo"
+        >
+          NEXT ITEM
+        </button>
+    
+          <div class="row">
+            <div class="col-7">
+              <form id="token-form">
+              <div class="form-group row m-1">
+                <div class="col-9 p-0">
+                  <input type="text" class="form-control" id="token-id" name="tokenId" placeholder="Enter other NFT ID">
+                </div>
+                <div class="col-3 pl-1">
+                  <button type="submit" class="btn btn-primary "><i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </form>
+            </div>
+          </div>
+       
       </div>
       <div class="m-0 row" style>
         <!-- <div class="col-md-4" style="text-align: center"> -->
@@ -140,35 +155,47 @@
     <!-- <script src="javascripts/crypto.js"></script> -->
     <!-- <script src=https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/0> id="tokenData" </script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
-    <script> 
+    <script>
       function getTokenMetaData(tokenId) {
         $.ajax({
-          type: 'get',
+          type: "get",
           url: "nft/nft_metadata",
-          data : {
-            'tokenId' : tokenId
+          data: {
+            tokenId: tokenId,
           },
-          dataType: "json"
-        }).done(function(json) {
-          console.log("json success", json)
-          $("#nft-image").attr("src",json.image);
+          dataType: "json",
+        }).done(function (json) {
+          console.log("json success", json);
+          $("#nft-image").attr("src", json.image);
           $("#token_name").text(json.name);
-          for(let i=0; i<json.attributes.length; i++) {
-            console.log(json.attributes[i].trait_type)
-            console.log(json.attributes[i].value)
-            $("#attributes_accordion").append(`<p id="attributes">< ${json.attributes[i].trait_type} > : < ${json.attributes[i].value} ></p>`);
-          };
-        })
+          for (let i = 0; i < json.attributes.length; i++) {
+            console.log(json.attributes[i].trait_type);
+            console.log(json.attributes[i].value);
+            $("#attributes_accordion").append(
+              `<p id="attributes"> ${json.attributes[i].trait_type}  :  ${json.attributes[i].value} </p>`
+            );
+          }
+        });
       }
+      let tokenId = $("#token-id").val() || 1;
       $(document).ready(async function () {
-        let i=1
-        getTokenMetaData(i);
+   
+    getTokenMetaData(tokenId);
         $("#getInfo").click(async function (event) {
           event.preventDefault();
-          getTokenMetaData(i++);
+          getTokenMetaData(++tokenId);
         });
-      })
-    </script>
+      });
 
+
+$(document).on("submit", "#token-form", function (event) {
+  event.preventDefault();
+  tokenId = $("#token-id").val();
+  getTokenMetaData(tokenId);
+});
+
+
+
+    </script>
   </body>
 </html>
