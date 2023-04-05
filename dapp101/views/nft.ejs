@@ -168,6 +168,7 @@
           console.log("json success", json);
           $("#nft-image").attr("src", json.image);
           $("#token_name").text(json.name);
+          $("#attributes_accordion").empty();
           for (let i = 0; i < json.attributes.length; i++) {
             console.log(json.attributes[i].trait_type);
             console.log(json.attributes[i].value);
