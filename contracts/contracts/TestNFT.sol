@@ -7,13 +7,15 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract TestNFT is ERC721PresetMinterPauserAutoId, Ownable {
     using Counters for Counters.Counter;
 
+    event NFTBuy(address indexed buyer, uint256 tokenId);
+
     IERC20 private testTokenAddress;
     address private withdrawer;
     uint256 private tokenPrice;
 
-    constructor(uint256 tokenPrice_, IERC20 testTokenAddress_) ERC721PresetMinterPauserAutoId("TestNFT", "TNFT", "https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/") {
+    constructor(uint256 tokenAmount_, IERC20 testTokenAddress_) ERC721PresetMinterPauserAutoId("TestNFT", "TNFT", "https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/") {
         setTokenAddress(testTokenAddress_);
-        setNftPrice(tokenPrice_);
+        setNftPrice(tokenAmount_);
     }
 
     function setNftPrice(uint256 tokenAmount) public {
@@ -21,10 +23,6 @@ contract TestNFT is ERC721PresetMinterPauserAutoId, Ownable {
     }
 
     function setTokenAddress(IERC20 tokenAddress) public {
-        testTokenAddress = tokenAddress;
-    }
-
-    function setWithdrawerAddress(IERC20 tokenAddress) public {
         testTokenAddress = tokenAddress;
     }
 
@@ -40,9 +38,15 @@ contract TestNFT is ERC721PresetMinterPauserAutoId, Ownable {
         return withdrawer;
     }
 
+    function withdrawERC20() public onlyOwner {
+        uint256 remainBalance = testTokenAddress.balanceOf(address(this));
+        testTokenAddress.transfer(msg.sender, remainBalance);
+    }
+
     function mintWithToken() public {
-        testTokenAddress.transferFrom(msg.sender, withdrawer, tokenPrice);
+        testTokenAddress.transferFrom(msg.sender, address(this), tokenPrice);
         _mint(msg.sender, _tokenIdTracker.current());
-        _tokenIdTracker.increment();    
+        _tokenIdTracker.increment();
+        emit NFTBuy(msg.sender, _tokenIdTracker.current());
     }
 }
