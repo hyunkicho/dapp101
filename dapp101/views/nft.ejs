@@ -128,6 +128,20 @@
           <button type="button" class="m-1 btn btn-secondary btn-lg" id="eventbtn_minted">
             Show event
           </button>
+
+          <div class="mb-3">
+            <label for="inputEthAmount" class="form-label">바꿀 nft 가격</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nft-price"
+              placeholder="NFT PRICE"
+            />
+          </div>
+
+          <button type="button" class="m-1 btn btn-secondary btn-lg" id="set-price">
+            Set Price
+          </button>
     
           <div class="row">
             <div class="col-7">
@@ -284,8 +298,8 @@
             console.log(" is owner");
           } else {
             console.log("not owner");
-            // $("#withdraw").addClass("collapse");
-            // $("#eventbtn_withdraw").addClass("collapse");
+            $("#set-price").addClass("collapse");
+            $("#nft-price").addClass("collapse");
           }
 
         $("#search").click(async function (event) {
@@ -304,7 +318,6 @@
 
         $("#eventbtn_minted").click(async function (event) {
           event.preventDefault();
-          const erc721Token = new ethers.Contract(ERC721, abi, signer);
           let data = await pushNFTmint(erc721Token, accounts, provider, abi);
 
           $("#jsGrid").jsGrid({
@@ -321,6 +334,27 @@
             ],
           });
         });
+
+        $("#set-price").click(async function (event) {
+          event.preventDefault();
+          let price = $("#nft-price").val()
+          console.log("price is >", price);
+          console.log("price is >", price*10**18);
+          setNftPriceCalldata = erc721Token.interface.encodeFunctionData("setNftPrice",[(price*10**18).toString()]);
+          await ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params: [
+                {
+                  from: accounts[0],
+                  to: ERC721,
+                  value: '0',
+                  data: setNftPriceCalldata,
+                },
+              ],
+            })
+            .catch((error) => console.error(error));
+        })
       });
 
     </script>

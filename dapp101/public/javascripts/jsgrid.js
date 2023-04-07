@@ -1,7 +1,3 @@
-// let clientsERC20 = [];
-
-const { copyFileSync } = require("fs");
-
 async function pushERC20Transfer(erc20Token, myAddress, provider, abi) {
     clientsERC20 = []
     console.log("pushERC20Transfer")
