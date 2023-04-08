@@ -1,21 +1,46 @@
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
-import "./ERC721PresetMinterPauserAutoId.sol";
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract TestNFT is ERC721PresetMinterPauserAutoId, Ownable {
+contract TestNFT is ERC721, ERC721Burnable, Ownable, EIP712, ERC721Votes {
     using Counters for Counters.Counter;
-
-    event NFTBuy(address indexed buyer, uint256 tokenId);
 
     IERC20 private testTokenAddress;
     address private withdrawer;
     uint256 private tokenPrice;
+    uint256 public tokenId;
+    Counters.Counter private _tokenIdCounter;
 
-    constructor(uint256 tokenAmount_, IERC20 testTokenAddress_) ERC721PresetMinterPauserAutoId("TestNFT", "TNFT", "https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/") {
+    constructor(
+        uint256 tokenAmount_,
+        IERC20 testTokenAddress_
+    ) ERC721("MyNFT", "MNFT") EIP712("MyToken", "1") {
         setTokenAddress(testTokenAddress_);
         setNftPrice(tokenAmount_);
+    }
+    string private _baseTokenURI;
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return "https://raw.githubusercontent.com/hyunkicho/blockchain101/main/erc721/metadata/";
+    }
+
+    function mint(address to) public onlyOwner {
+        tokenId = _tokenIdCounter.current();
+        _safeMint(to, tokenId);
+        _tokenIdCounter.increment();
+    }
+
+    function mintWithToken() public {
+        testTokenAddress.transferFrom(msg.sender, address(this), tokenPrice);
+        tokenId = _tokenIdCounter.current();
+        _safeMint(msg.sender, tokenId);
+        _tokenIdCounter.increment();
     }
 
     function setNftPrice(uint256 tokenAmount) public {
@@ -43,10 +68,14 @@ contract TestNFT is ERC721PresetMinterPauserAutoId, Ownable {
         testTokenAddress.transfer(msg.sender, remainBalance);
     }
 
-    function mintWithToken() public {
-        testTokenAddress.transferFrom(msg.sender, address(this), tokenPrice);
-        _mint(msg.sender, _tokenIdTracker.current());
-        _tokenIdTracker.increment();
-        emit NFTBuy(msg.sender, _tokenIdTracker.current());
+
+    // The following functions are overrides required by Solidity.
+
+    function _afterTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
+        internal
+        override(ERC721, ERC721Votes)
+    {
+        super._afterTokenTransfer(from, to, tokenId, batchSize);
     }
 }
+

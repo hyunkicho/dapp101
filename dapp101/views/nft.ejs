@@ -112,7 +112,7 @@
               <h2><i class="bi bi-diamond-half" id="current-price"> </i></h2>
             </div>
             <div class="mb-3 col-md-12">
-              <p class="fs-4 fw-bold col-md-6">Next token ID</p>
+              <p class="fs-4 fw-bold col-md-6">Current token ID</p>
               <h2><i class="bi bi-diamond-half" id="next-mint"> </i></h2>
             </div>
           </div>
@@ -141,6 +141,10 @@
 
           <button type="button" class="m-1 btn btn-secondary btn-lg" id="set-price">
             Set Price
+          </button>
+
+          <button type="button" class="m-1 btn btn-secondary btn-lg" id="withdraw-erc20">
+            withdraw-erc20
           </button>
     
           <div class="row">
@@ -225,7 +229,7 @@
           } catch (error) {
             $("#nft-owner").text("not minted");
           }     
-          const _tokenIdTracker = await erc721Token._tokenIdTracker();
+          const _tokenIdTracker = await erc721Token.tokenId();
           let tobeMintedTokenId = _tokenIdTracker.toString();
           $("#next-mint").text(tobeMintedTokenId);
           console.log($("#next-mint").val());
@@ -300,6 +304,7 @@
             console.log("not owner");
             $("#set-price").addClass("collapse");
             $("#nft-price").addClass("collapse");
+            $("#withdraw-erc20").addClass("collapse");
           }
 
         $("#search").click(async function (event) {
@@ -350,6 +355,24 @@
                   to: ERC721,
                   value: '0',
                   data: setNftPriceCalldata,
+                },
+              ],
+            })
+            .catch((error) => console.error(error));
+        })
+
+        $("#withdraw-erc20").click(async function (event) {
+          event.preventDefault();
+          withdrawCalldata = erc721Token.interface.encodeFunctionData("withdrawERC20");
+          await ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params: [
+                {
+                  from: accounts[0],
+                  to: ERC721,
+                  value: '0',
+                  data: withdrawCalldata,
                 },
               ],
             })
