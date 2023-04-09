@@ -1,12 +1,11 @@
 pragma solidity ^0.8.13;
-
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/draft-ERC721Votes.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Votes.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 
 contract TestNFT is ERC721, ERC721Burnable, Ownable, EIP712, ERC721Votes {
     using Counters for Counters.Counter;
@@ -20,14 +19,21 @@ contract TestNFT is ERC721, ERC721Burnable, Ownable, EIP712, ERC721Votes {
     constructor(
         uint256 tokenAmount_,
         IERC20 testTokenAddress_
-    ) ERC721("MyNFT", "MNFT") EIP712("MyToken", "1") {
+    ) 
+    ERC721("MyNFT", "MNFT")
+    EIP712("MyToken", "1")
+    {
         setTokenAddress(testTokenAddress_);
         setNftPrice(tokenAmount_);
+        //InitialTokenURI
+        setbaseURI("https://raw.githubusercontent.com/dogeum-network/nft-baseuri/main/metadatas/");
+        //tokenID 0 is for test
+        mint(msg.sender);
     }
     string private _baseTokenURI;
 
     function _baseURI() internal view virtual override returns (string memory) {
-        return "https://raw.githubusercontent.com/hyunkicho/blockchain101/main/erc721/metadata/";
+        return _baseTokenURI;
     }
 
     function mint(address to) public onlyOwner {
@@ -71,11 +77,16 @@ contract TestNFT is ERC721, ERC721Burnable, Ownable, EIP712, ERC721Votes {
 
     // The following functions are overrides required by Solidity.
 
-    function _afterTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
+    function _afterTokenTransfer(address from, address to, uint256 tokenId_, uint256 batchSize)
         internal
         override(ERC721, ERC721Votes)
     {
-        super._afterTokenTransfer(from, to, tokenId, batchSize);
+        super._afterTokenTransfer(from, to, tokenId_, batchSize);
+    }
+
+   function setbaseURI(string memory baseURI) public returns (string memory) {
+        _baseTokenURI = baseURI;
+        return _baseTokenURI;
     }
 }
 

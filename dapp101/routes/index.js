@@ -22,4 +22,8 @@ router.get("/token", function (req, res, next) {
 router.get("/dao", function (req, res, next) {
   res.render("dao", { title: "dao tutorial"});
 });
+
+router.get("/vote", function (req, res, next) {
+  res.render("vote", { title: "vote tutorial"});
+});
 module.exports = router;

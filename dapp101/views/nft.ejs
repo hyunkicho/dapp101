@@ -9,48 +9,6 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>NFT sales tutorial</title>
-
-    <!-- Font Awesome icons (free version)-->
-    <script
-      src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Simple line icons-->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google fonts-->
-    <link
-      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="stylesheets/styles.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
-    />
-    <script
-      src="https://code.jquery.com/jquery-3.6.3.min.js"
-      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
-    ></script>
   </head>
   <body>
     <!-- <div class="container-fluid justify-content-md-center">
@@ -170,216 +128,60 @@
         <div class="col-md-6"></div>
       </div>
     </div>
+
+      <!-- Font Awesome icons (free version)-->
+      <script
+        src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
+        crossorigin="anonymous"
+      ></script>
+      <!-- Simple line icons-->
+      <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css"
+        rel="stylesheet"
+      />
+      <!-- Google fonts-->
+      <link
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <!-- Core theme CSS (includes Bootstrap)-->
+      <link href="stylesheets/styles.css" rel="stylesheet" />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+      />
+      <link
+        type="text/css"
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
+      />
+      <link
+        type="text/css"
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
+      />
+      <script
+        src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+        crossorigin="anonymous"
+      ></script>
+      <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
+      ></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+      ></script>
     <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="src/abi/constant.js"></script>
     <script src="javascripts/crypto.js"></script>
     <script src="javascripts/jsgrid.js"></script>
     <script src="src/abi/MyERC20.js"></script>
     <script src="src/abi/MyERC721.js"></script>
     <script src="src/utils/noExponents.js"></script>
-    <script
-      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
-      type="application/javascript"
-    ></script>
-    <script>
-      function getTokenMetaData(tokenId) {
-        try{
-          if((tokenId < 1) || (tokenId > 100)) {
-            alert("token ID should be 1~100!"); 
-          }else {
-            $.ajax({
-              type: "get",
-              url: "nft/nft_metadata",
-              data: {
-                tokenId: tokenId,
-              },
-              dataType: "json",
-            }).done(function (json) {
-              console.log("json success", json);
-              $("#nft-image").attr("src", json.image);
-              $("#token_name").text(json.name);
-              $("#attributes_accordion").empty();
-              for (let i = 0; i < json.attributes.length; i++) {
-                $("#attributes_accordion").append(
-                  `<p id="attributes"> ${json.attributes[i].trait_type}  :  ${json.attributes[i].value} </p>`
-                );
-              }
-            });
-          }
-        } catch (err){
-          console.log("error", err);
-        }
-      }
-      let tokenId = $("#token-id").val() || 1;
-      let owner;
-      $(document).ready(async function () {    
-          getTokenMetaData(tokenId);
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
-          let abi = JSON.parse(JSON.stringify(MYERC721.abi));
-          const erc721Token = new ethers.Contract(ERC721, abi, signer);
-          const accounts = await ethereum.request({
-            method: "eth_requestAccounts",
-          });
-          try {
-            owner = await erc721Token.ownerOf(tokenId);
-            console.log("owner is :", owner);
-            $("#nft-owner").text(owner);
-          } catch (error) {
-            $("#nft-owner").text("not minted");
-          }     
-          const _tokenIdTracker = await erc721Token.tokenId();
-          let tobeMintedTokenId = _tokenIdTracker.toString();
-          $("#next-mint").text(tobeMintedTokenId);
-          console.log($("#next-mint").val());
-
-          $("#token-id").val(tobeMintedTokenId);
-          console.log($("#token-id").val());
-          const nftPrice = await erc721Token.getNftPrice();
-          const displayNftPrice = nftPrice.toString()/(10**18);
-          $("#current-price").text(displayNftPrice);
-          //checksum address 로 비교해야 한다.
-          const accountChecksum = ethers.utils.getAddress(accounts[0]);
-
-          $("#approve-token").click(async function (event) {
-          event.preventDefault();
-          const hex_value = parseInt(nftPrice).toString(16);
-          let erc20abi = JSON.parse(JSON.stringify(MYERC20.abi));
-          const erc20Token = new ethers.Contract(ERC20, erc20abi, signer);
-          //최대값으로 approve 받기
-          const infinite = ethers.utils.parseUnits(
-          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
-          0);
-
-          approveCalldata = erc20Token.interface.encodeFunctionData("approve",[ERC721,infinite])
-          let data = ethereum
-            .request({
-              method: "eth_sendTransaction",
-              params: [
-                {
-                  from: accounts[0],
-                  to: ERC20,
-                  value: '0',
-                  data: approveCalldata,
-                },
-              ],
-            })
-            .then((txHash) => console.log(txHash))
-            .catch((error) => console.error(error));
-        });
-        $("#buy-nft").click(async function (event) {
-          const estimation = await erc721Token.estimateGas.mintWithToken();
-          console.log("estimation : ", estimation);
-          alert(`you are buying nft ID ${tobeMintedTokenId} check it before you mint`)
-          mintCalldata = erc721Token.interface.encodeFunctionData("mintWithToken");
-          let data = ethereum
-            .request({
-              method: "eth_sendTransaction",
-              params: [
-                {
-                  from: accounts[0],
-                  to: ERC721,
-                  value: '0',
-                  data: mintCalldata,
-                },
-              ],
-            })
-            .then((txHash) => console.log(txHash))
-            .catch((error) => console.error(error));
-
-            try {
-            owner = await erc721Token.ownerOf(tokenId);
-              $("#nft-owner").text(owner);
-            } catch (error) {
-              $("#nft-owner").text("not minted");
-            }         
-          });
-
-          // contract owner 인지 체크 후 관리자 함수 표시
-          const contractOwner = await erc721Token.ownerOf(tokenId);
-          if (contractOwner == accountChecksum) {
-            console.log(" is owner");
-          } else {
-            console.log("not owner");
-            $("#set-price").addClass("collapse");
-            $("#nft-price").addClass("collapse");
-            $("#withdraw-erc20").addClass("collapse");
-          }
-
-        $("#search").click(async function (event) {
-          event.preventDefault();
-          tokenId = $("#token-id").val();
-          try{
-            owner = await erc721Token.ownerOf(tokenId);
-            $("#nft-owner").text(owner);
-          } catch(err) {
-            console.log("err is :", err);
-            $("#nft-owner").text("not minted");
-          }
-          getTokenMetaData(tokenId);
-        });
-
-
-        $("#eventbtn_minted").click(async function (event) {
-          event.preventDefault();
-          let data = await pushNFTmint(erc721Token, accounts, provider, abi);
-
-          $("#jsGrid").jsGrid({
-            width: "100%",
-            height: "auto",
-            sorting: true,
-            paging: true,
-            data: data,
-            fields: [
-              { name: "from", type: "text", width: 250 },
-              { name: "to", type: "text", width: 250 },
-              { name: "tokenId", type: "text", width: 50 },
-              { name: "txhash", type: "text", width: 300 },
-            ],
-          });
-        });
-
-        $("#set-price").click(async function (event) {
-          event.preventDefault();
-          let price = $("#nft-price").val()
-          console.log("price is >", price);
-          console.log("price is >", price*10**18);
-          setNftPriceCalldata = erc721Token.interface.encodeFunctionData("setNftPrice",[(price*10**18).toString()]);
-          await ethereum
-            .request({
-              method: "eth_sendTransaction",
-              params: [
-                {
-                  from: accounts[0],
-                  to: ERC721,
-                  value: '0',
-                  data: setNftPriceCalldata,
-                },
-              ],
-            })
-            .catch((error) => console.error(error));
-        })
-
-        $("#withdraw-erc20").click(async function (event) {
-          event.preventDefault();
-          withdrawCalldata = erc721Token.interface.encodeFunctionData("withdrawERC20");
-          await ethereum
-            .request({
-              method: "eth_sendTransaction",
-              params: [
-                {
-                  from: accounts[0],
-                  to: ERC721,
-                  value: '0',
-                  data: withdrawCalldata,
-                },
-              ],
-            })
-            .catch((error) => console.error(error));
-        })
-      });
-
-    </script>
+    <script src="javascripts/nft.js"></script>
   </body>
 </html>

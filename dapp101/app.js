@@ -6,6 +6,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var nftRouter = require("./routes/nft");
+var daoRouter = require("./routes/dao");
 const router = require("./routes/index");
 
 var app = express();
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/nft", nftRouter);
+app.use("/dao", daoRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

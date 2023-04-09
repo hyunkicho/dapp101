@@ -45,10 +45,10 @@ async function pushETHwithdraw(erc20Token, myAddress, provider, abi) {
       receipt.logs.forEach((log) => {
         const parsedLog = iface.parseLog(log)
         if( parsedLog.topic == topic) {
-            resObj.amount = parsedLog.args.from.toString();
-            resObj.buyer = parsedLog.args.to;
+            resObj.withdrawer = parsedLog.args.withdrawer;
+            resObj.amount = parsedLog.args.amount;
             resObj.txhash = logs.transactionHash;
-            clientsETH.push({"amount": (resObj.amount/(10**18)).toString(), "buyer": resObj.buyer, "txhash" : resObj.txhash});
+            clientsETH.push({"amount": (resObj.amount/(10**18)).toString(), "withdrawer": resObj.withdrawer, "txhash" : resObj.txhash});
         } else {
           console.log(`this topic is not Transfer`)
         }
@@ -84,4 +84,61 @@ async function pushNFTmint(erc721Token, myAddress, provider, abi) {
     });
     }
     return clientsNFT;
+}
+
+async function pushProposalId(governor, myAddress, provider, abi) {
+    clientsGoveronor = []
+    console.log("pushProposalId")
+    const resObj = {}
+    const topic = [governor.filters.ProposalCreated().topics].toString();
+    const filter = {
+      address: GOVERNOR,
+      fromBlock: 28546565,
+      topics: [topic]
+    };
+    const getlogs = await provider.getLogs(filter);
+    let iface = new ethers.utils.Interface(abi);
+    for (let logs of getlogs) {
+      const receipt = await provider.getTransactionReceipt(logs.transactionHash);
+      receipt.logs.forEach((log) => {
+        const parsedLog = iface.parseLog(log)
+        if( parsedLog.topic == topic) {
+            resObj.proposalId = parsedLog.args.proposalId.toString();
+            resObj.txhash = logs.transactionHash;
+            clientsGoveronor.push({"proposalId": resObj.proposalId, "txhash" : resObj.txhash});
+        } else {
+          console.log(`this topic is not proposalId`)
+        }
+      });
+    }
+    return clientsGoveronor;
+}
+
+async function getProposalInfo(governor, myAddress, provider, abi) {
+    proposalInfo = []
+    console.log("getProposalInfo")
+    const topic = [governor.filters.ProposalCreated().topics].toString();
+    const filter = {
+        address: GOVERNOR,
+        fromBlock: 28546565,
+        topics: [topic]
+    };
+    const getlogs = await provider.getLogs(filter);
+    let iface = new ethers.utils.Interface(abi);
+    for (let logs of getlogs) {
+      const resObj = {}
+      const receipt = await provider.getTransactionReceipt(logs.transactionHash);
+      receipt.logs.forEach((log) => {
+        const parsedLog = iface.parseLog(log)
+        if( parsedLog.topic == topic) {
+            resObj.proposalId = parsedLog.args.proposalId.toString();
+            resObj.startBlock = parsedLog.args.startBlock.toString();
+            resObj.endBlock = parsedLog.args.endBlock.toString();
+            resObj.description = parsedLog.args.description;
+            resObj.txhash = logs.transactionHash;
+            proposalInfo.push(resObj);
+        }
+      });
+    }
+    return proposalInfo;
 }

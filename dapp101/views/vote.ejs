@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DAO 투표 페이지</title>
+    <!-- 필요한 CSS 파일들을 추가합니다 -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <!-- 메인 내용 부분 -->
+    <main>
+      <section class="container mt-4">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h1 class="text-center mb-4">DAO 투표하기</h1>
+            <div class="col-md-5">
+              <!-- <p class="fs-5">Owned by</p> -->
+              <span>Current BlockNumber : </span>
+              <span class="text-primary" id="currentBlockNumber"></span>
+              <br>
+              <span>통과에 필요한 투표 수 : </span>
+              <span class="text-primary" id="quorum"></span>
+              </dr>
+              <br>
+               <span>스냅 샷 시간 : </span>
+                <span class="text-primary" id="votingDelay"></span>
+              </dr>
+              <br>
+                <span>투표 종료 기준 시간 : </span>
+                <span class="text-primary" id="votingPeriod"></span>
+              </dr>
+            </div>
+            <form id="tokenForm">
+              <div class="mb-3">
+                <label for="addressFromWallet" class="form-label"
+                  >지갑주소</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ENTER TOKEN NAME"
+                  id="addressFromWallet"
+                  readonly
+                />
+              </div>
+            </form>
+
+            <div class="mb-3">
+              <button class="btn btn-primary" type="button" id="eventbtn_proposalId">
+                현재 활성화 안건만 불러오기
+              </button>
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-primary" type="button" id="eventbtn_proposalId_all">
+                전체 안건들 불러오기
+              </button>
+            </div>
+            
+            <h1>DAO 안건 리스트</h1>
+            <div class="container" id="cast_list">
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-primary" type="button" id="cast-btn">
+                투표하기
+              </button>
+            </div>
+            <div class="mb-3">
+              <label for="proposal-id" class="form-label"
+                >프로포절 아이디로 투표내역 조회하기</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="proposal-id"
+                placeholder="제안하고자 하는 Proposal ID를 지정해주세요"
+              />
+  
+              <div class="mb-3">
+                <button class="btn btn-primary" type="button" id="proposal-search">
+                  조회하기
+                </button>
+              </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="mt-5 mb-3" id="jsGrid"></div>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <!-- 필요한 JavaScript 파일들을 추가합니다 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
+    ></script>
+    <script src="src/abi/constant.js"></script>
+    <script src="javascripts/crypto.js"></script>
+    <script src="javascripts/jsgrid.js"></script>
+    <script src="src/abi/MyERC721.js"></script>
+    <script src="src/abi/MyGovernor.js"></script>
+    <script src="src/utils/noExponents.js"></script>
+    <script src="javascripts/vote.js"></script>
+</body>
+</html>
