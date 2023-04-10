@@ -135,6 +135,8 @@ async function getProposalInfo(governor, myAddress, provider, abi) {
             resObj.startBlock = parsedLog.args.startBlock.toString();
             resObj.endBlock = parsedLog.args.endBlock.toString();
             resObj.description = parsedLog.args.description;
+            resObj.targets = parsedLog.args.targets;
+            resObj.calldatas = parsedLog.args.calldatas;
             resObj.txhash = logs.transactionHash;
             proposalInfo.push(resObj);
         }

@@ -62,9 +62,19 @@
             <h1>DAO 안건 리스트</h1>
             <div class="container" id="cast_list">
             </div>
+            
             <div class="mb-3">
+              <input
+              type="text"
+              class="form-control"
+              id="proposal-Input"
+              placeholder="투표 하고자 하는 Proposal ID를 지정해주세요"
+              />
               <button class="btn btn-primary" type="button" id="cast-btn">
-                투표하기
+                찬성에 투표하기
+              </button>
+              <button class="btn btn-primary" type="button" id="cast-btn-agn">
+                반대에 투표하기
               </button>
             </div>
             <div class="mb-3">
@@ -75,7 +85,7 @@
                 type="text"
                 class="form-control"
                 id="proposal-id"
-                placeholder="제안하고자 하는 Proposal ID를 지정해주세요"
+                placeholder="조회 하는 Proposal ID를 지정해주세요"
               />
   
               <div class="mb-3">
@@ -83,6 +93,20 @@
                   조회하기
                 </button>
               </div>
+
+              <div class="mb-3">
+                <button class="btn btn-primary" type="button" id="execute">
+                  실행하기
+                </button>
+              </div>
+
+              <input
+              type="text"
+              class="form-control"
+              id="proposal-status"
+              placeholder="현재 상황이 표시됩니다."
+              readonly
+            />
           </div>
         </div>
       </section>
