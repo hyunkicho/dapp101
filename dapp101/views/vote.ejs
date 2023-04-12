@@ -14,24 +14,26 @@
     <main>
       <section class="container mt-4">
         <div class="row justify-content-center">
-          <div class="col-lg-6">
+          <div class="col-lg-7">
             <h1 class="text-center mb-4">DAO 투표하기</h1>
-            <div class="col-md-5">
-              <!-- <p class="fs-5">Owned by</p> -->
-              <span>Current BlockNumber : </span>
-              <span class="text-primary" id="currentBlockNumber"></span>
+            <div class="mb-2 rounded border border-5 border-primary col-md-auto">
+              
+      
+           
+              <span style="display: inline-block; white-space: nowrap;">Current BlockNumber : </span>
+          
+              <span style="display: inline-block; white-space: nowrap;" class="text-primary" id="currentBlockNumber"></span>
+           
               <br>
               <span>통과에 필요한 투표 수 : </span>
               <span class="text-primary" id="quorum"></span>
-              </dr>
-              <br>
+            <br>
                <span>스냅 샷 시간 : </span>
                 <span class="text-primary" id="votingDelay"></span>
-              </dr>
-              <br>
+                <br>
                 <span>투표 종료 기준 시간 : </span>
                 <span class="text-primary" id="votingPeriod"></span>
-              </dr>
+                <br>
             </div>
             <form id="tokenForm">
               <div class="mb-3">
@@ -53,13 +55,13 @@
                 현재 활성화 안건만 불러오기
               </button>
             </div>
-            <div class="mb-3">
+            <div class="mb-5">
               <button class="btn btn-primary" type="button" id="eventbtn_proposalId_all">
                 전체 안건들 불러오기
               </button>
             </div>
             
-            <h1>DAO 안건 리스트</h1>
+            <h1 class="text-center mb-4">DAO 투표하기</h1>
             <div class="container" id="cast_list">
             </div>
             
@@ -70,10 +72,10 @@
               id="proposal-Input"
               placeholder="투표 하고자 하는 Proposal ID를 지정해주세요"
               />
-              <button class="btn btn-primary" type="button" id="cast-btn">
+              <button class="mt-2 btn btn-primary" type="button" id="cast-btn">
                 찬성에 투표하기
               </button>
-              <button class="btn btn-primary" type="button" id="cast-btn-agn">
+              <button class="mt-2 btn btn-primary" type="button" id="cast-btn-agn">
                 반대에 투표하기
               </button>
             </div>
@@ -88,7 +90,7 @@
                 placeholder="조회 하는 Proposal ID를 지정해주세요"
               />
   
-              <div class="mb-3">
+              <div class="mt-2 mb-3">
                 <button class="btn btn-primary" type="button" id="proposal-search">
                   조회하기
                 </button>

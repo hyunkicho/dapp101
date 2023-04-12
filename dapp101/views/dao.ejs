@@ -8,6 +8,11 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
+    <link href="stylesheets/styles.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
   </head>
   <body>
     <!-- 메인 내용 부분 -->
@@ -16,9 +21,7 @@
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <h1 class="text-center mb-4">DAO 안건 제안하기</h1>
-            <p class="text-center mb-4">
-              원하는 정책을 등록해 주세요!
-            </p>
+            <p class="text-center mb-4">원하는 정책을 등록해 주세요!</p>
             <form id="tokenForm">
               <div class="mb-3">
                 <label for="addressFromWallet" class="form-label"
@@ -36,52 +39,63 @@
                 <label for="inputEthAmount" class="form-label"
                   >제안할 사안</label
                 >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="proposal-input"
-                  placeholder="DAO에 제안할 안건을 추가해주세요"
-                />
+                <div class="mb-3 input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="proposal-input"
+                    placeholder="DAO에 제안할 안건을 추가해주세요"
+                  />
 
-                <div class="mb-3">
-                  <button class="btn btn-primary" type="button" id="proposalbtn">
-                    제안하기
+                  <div class="ml-2">
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      id="proposalbtn"
+                    >
+                      <i class="bi bi-plus-square-fill"></i>
+                    </button>
+                  </div>
+                </div>
+                <label for="inputEthAmount" class="form-label"
+                  >투표권을 위임할 주소</label
+                >
+                <div class="mb-3 input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="delegate-address"
+                    placeholder="투표권을 위임할 주소를 선택해 주세요"
+                  />
+                  <div class="ml-2 mb-2">
+                  <button class="btn btn-primary" type="button" id="delegate">
+                    <i class="bi bi-send-fill"></i>
                   </button>
                 </div>
-              <label for="inputEthAmount" class="form-label"
-                >투표권을 위임할 주소</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="delegate-address"
-                placeholder="투표권을 위임할 주소를 선택해 주세요"
-              />
-
-              <div class="mb-3">
-                <button class="btn btn-primary" type="button" id="delegate">
-                  위임하기
-                </button>
               </div>
-              </div>
-              <br>
-                <span>투표 가능 수 : </span>
-                <span class="text-primary" id="weigth"></span>
-              </dr>
               <div class="mb-3">
-                <button class="btn btn-primary" type="button" id="check-vote">
+                <button
+                  class="mr-2 btn btn-primary"
+                  type="button"
+                  id="check-vote"
+                >
                   나의 투표 가능 수 체크
                 </button>
+                <span>투표 가능 수 : </span>
               </div>
+
               <div class="mb-3">
-                <button class="btn btn-primary" type="button" id="eventbtn_proposalId">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  id="eventbtn_proposalId"
+                >
                   proposal 아이디 조회
                 </button>
               </div>
             </form>
           </div>
-          <div class="mb-3">
-          </div>
+          <div class="mb-3"></div>
         </div>
       </section>
     </main>
@@ -119,139 +133,144 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
     ></script>
 
-<script>
-    // 1초마다 updateBlock() 함수를 실행시킨다.
+    <script>
+      // 1초마다 updateBlock() 함수를 실행시킨다.
 
-  $(document).ready(async function () {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    let abi_governor = JSON.parse(JSON.stringify(MYGOVERNOR.abi));
-    const governor = new ethers.Contract(GOVERNOR, abi_governor, signer);
-    let abi_erc721 = JSON.parse(JSON.stringify(MYERC721.abi));
-    const erc721Token = new ethers.Contract(ERC721, abi_erc721, signer);
-    const accounts = await ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    //기본값은 자기 자신에게 위임하도록
-    $("#delegate-address").val(accounts[0]);
-    //checksum address 로 비교해야 한다.
-    const accountChecksum = ethers.utils.getAddress(accounts[0]);
-    const owner = await governor.owner();
-    console.log("owner is : ", owner);
-    if (owner == accountChecksum) {
-      console.log(" is owner");
-    } else {
-      console.log("not owner");
-      $("#withdraw").addClass("collapse");
-      $("#eventbtn_withdraw").addClass("collapse");
-    }
+      $(document).ready(async function () {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        let abi_governor = JSON.parse(JSON.stringify(MYGOVERNOR.abi));
+        const governor = new ethers.Contract(GOVERNOR, abi_governor, signer);
+        let abi_erc721 = JSON.parse(JSON.stringify(MYERC721.abi));
+        const erc721Token = new ethers.Contract(ERC721, abi_erc721, signer);
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        //기본값은 자기 자신에게 위임하도록
+        $("#delegate-address").val(accounts[0]);
+        //checksum address 로 비교해야 한다.
+        const accountChecksum = ethers.utils.getAddress(accounts[0]);
+        const owner = await governor.owner();
+        console.log("owner is : ", owner);
+        if (owner == accountChecksum) {
+          console.log(" is owner");
+        } else {
+          console.log("not owner");
+          $("#withdraw").addClass("collapse");
+          $("#eventbtn_withdraw").addClass("collapse");
+        }
 
-    $("#check-vote").click(async function (event) {
-      const weight = await erc721Token.getVotes(accounts[0]);
-      console.log(weight)
-      $("#weigth").text(weight);
-    })
+        $("#check-vote").click(async function (event) {
+          const weight = await erc721Token.getVotes(accounts[0]);
+          console.log(weight);
+          $("#weigth").text(weight);
+        });
 
-    $("#proposalbtn").click(async function (event) {
-      event.preventDefault();
-      // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
-      const proposalExplain = $("#proposal-input").val();
-      governorCalldata =
-        governor.interface.encodeFunctionData("propose",[
-        [GOVERNOR],
-        [0],
-        ['0x'],
-        proposalExplain
-        ]);
-      let data = ethereum
-        .request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: accounts[0],
-              to: GOVERNOR,
-              value: "0",
-              data: governorCalldata,
-            },
-          ],
-        })
-        //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
-        .then((txHash) => alert(txHash))
-        .catch((error) => console.error(error));
-    });
-
-
-
-    $("#delegate").click(async function (event) {
-      event.preventDefault();
-      const delegate_address = $("#delegate-address").val();
-      console.log("delegate-address >>", delegate_address);
-      // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
-      delegatingCall = erc721Token.interface.encodeFunctionData("delegate",[delegate_address]);
-      let data = ethereum
-        .request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: accounts[0],
-              to: ERC721,
-              value: "0",
-              data: delegatingCall,
-            },
-          ],
-        })
-        //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
-        .then((txHash) => alert(txHash))
-        .catch((error) => console.error(error));
-    })
-
-    $("#proposalbtn").click(async function (event) {
-      event.preventDefault();
-      // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
-      const proposalExplain = $("#proposal-input").val();
-      console.log("proposalExplain >>", proposalExplain);
-      governorCalldata =
-        governor.interface.encodeFunctionData("propose",[
-        [ERC721],
-        [0],
-        ['0x'],
-        'proposalExplain'
-        ]);
-      let data = ethereum
-        .request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: accounts[0],
-              to: GOVERNOR,
-              value: "0",
-              data: governorCalldata,
-            },
-          ],
-        })
-        //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
-        .then((txHash) => alert(txHash))
-        .catch((error) => console.error(error));
-    });
-
-    $("#addressFromWallet").val(accounts[0]);
-
-    $("#eventbtn_proposalId").click(async function (event) {
+        $("#proposalbtn").click(async function (event) {
           event.preventDefault();
-          let data = await pushProposalId(governor, accounts[0], provider, abi_governor);
+          // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
+          const proposalExplain = $("#proposal-input").val();
+          governorCalldata = governor.interface.encodeFunctionData("propose", [
+            [GOVERNOR],
+            [0],
+            ["0x"],
+            proposalExplain,
+          ]);
+          let data = ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params: [
+                {
+                  from: accounts[0],
+                  to: GOVERNOR,
+                  value: "0",
+                  data: governorCalldata,
+                },
+              ],
+            })
+            //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
+            .then((txHash) => alert(txHash))
+            .catch((error) => console.error(error));
+        });
+
+        $("#delegate").click(async function (event) {
+          event.preventDefault();
+          const delegate_address = $("#delegate-address").val();
+          console.log("delegate-address >>", delegate_address);
+          // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
+          delegatingCall = erc721Token.interface.encodeFunctionData(
+            "delegate",
+            [delegate_address]
+          );
+          let data = ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params: [
+                {
+                  from: accounts[0],
+                  to: ERC721,
+                  value: "0",
+                  data: delegatingCall,
+                },
+              ],
+            })
+            //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
+            .then((txHash) => alert(txHash))
+            .catch((error) => console.error(error));
+        });
+
+        $("#proposalbtn").click(async function (event) {
+          event.preventDefault();
+          // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
+          const proposalExplain = $("#proposal-input").val();
+          console.log("proposalExplain >>", proposalExplain);
+          governorCalldata = governor.interface.encodeFunctionData("propose", [
+            [ERC721],
+            [0],
+            ["0x"],
+            "proposalExplain",
+          ]);
+          let data = ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params: [
+                {
+                  from: accounts[0],
+                  to: GOVERNOR,
+                  value: "0",
+                  data: governorCalldata,
+                },
+              ],
+            })
+            //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
+            .then((txHash) => alert(txHash))
+            .catch((error) => console.error(error));
+        });
+
+        $("#addressFromWallet").val(accounts[0]);
+
+        $("#eventbtn_proposalId").click(async function (event) {
+          event.preventDefault();
+          let data = await pushProposalId(
+            governor,
+            accounts[0],
+            provider,
+            abi_governor
+          );
           $("#jsGrid").jsGrid({
             width: "100%",
             height: "auto",
             sorting: true,
             paging: true,
+            autowidth: true, 
             data: data,
             fields: [
-              { name: "proposalId", type: "text", width: 250 },
-              { name: "txhash", type: "text", width: 300 },
+              { name: "proposalId", type: "text" },
+              { name: "txhash", type: "text" },
             ],
           });
         });
-  });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>
