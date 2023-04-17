@@ -8,7 +8,7 @@ contract TestERC1155 is ERC1155PresetMinterPauser, Ownable {
     using Strings for uint256;
 
     // Optional base URI
-    string private _baseURI = "https://raw.githubusercontent.com/hyunkicho/Sogang-nft/main/contracts/collectibles/";
+    string private _baseURI = "https://raw.githubusercontent.com/hyunkicho/blockchain101/main/erc1155/metadata/";
 
     address private governor;
 

@@ -341,9 +341,24 @@ RPC_URL_BSC='https://bsc-testnet-rpc.allthatnode.com'
 RPC_URL_KLAYTN='https://klaytn-baobab-rpc.allthatnode.com:8551'
 
 각 네트워크에 맞게 각 컨트렉트를 순서대로 배포한다. (강의에서는 matic을 사용하지만 다른 체인도 가능하다.)
-   ``` 
-    npx hardhat run scripts/deploy.ts --network matic
-   ```
+
+경로 
+```
+/dapp101/contracts
+```
+컨트렉트 아래 순서대로 배포하고 env파일 업데이트
+
+``` 
+npx hardhat run scripts/deploy.ts --network matic 
+//erc20 배포 후 env에 주소 넣기
+npx hardhat run scripts/deployNft.ts --network matic  
+//erc721 배포 후 env에 주소 넣기
+npx hardhat run scripts/deployGovernor.ts --network matic 
+//governor 배포 후 env에 주소 넣기
+npx hardhat run scripts/deployCollectible.ts --network matic
+//erc1155 배포 후 env에 주소 넣기
+npx hardhat run scripts/deployMultisig.ts --network matic
+```
 
 배포 후에는 배포 된 컨트렉트와 상호작용이 가능한 2가지 요소를 사용한다.
 
@@ -353,9 +368,22 @@ erc20 contract is deployed to 0x39e813A5c0C98066C9c8Ebe1E6a2B23Bf2bE4357
 ```
 
 두번째는 abi 파일이다.
-각각 public/src/abi/constant.js와 public/src/abi/MyERC20.js 에 업데이트를 해준다.
+
+env파일에 기록된 컨트렉트들에 대한 CA와 ABI를 각각 public/src/abi/constant.js와 public/src/abi/MyERC20.js 에 업데이트를 해준다.
 
 5. 프로그램 구동시키기
+
+아래 사이트에서 원하는 EVM계열 체인에 배포
+https://chainlist.org/
+
+실습의 경우 아래 정보로 메타마스크에 등록하였다.
+```
+Network Name: Mumbai Testnet
+New RPC URL: https://rpc-mumbai.maticvigil.com/
+Chain ID: 80001
+Currency Symbol: MATIC
+Block Explorer URL: https://polygonscan.com/
+```
 
 먼저 public/src/constant.js 파일에 4번에서 배포한 CA주소를 넣어준다.
 
