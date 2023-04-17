@@ -8,8 +8,10 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
+    
   </head>
   <body>
+    <% include ./navbar %>
     <!-- 메인 내용 부분 -->
     <main>
       <section class="container mt-4" id="multisig">
@@ -17,7 +19,7 @@
           <div class="col-lg-7">
             <h1 class="text-center mb-4">Multisig 관리하기</h1>
             <div class="mb-2 rounded border border-5 border-primary col-md-auto">
-              <br>
+              
               <span> 요구되는 서명 수 : </span>
               <span class="text-primary" id="quorum"></span>
               <br>
