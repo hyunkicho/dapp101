@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Multisig 페이지</title>
+    <!-- 필요한 CSS 파일들을 추가합니다 -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <!-- 메인 내용 부분 -->
+    <main>
+      <section class="container mt-4" id="multisig">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <h1 class="text-center mb-4">Multisig 관리하기</h1>
+            <div class="mb-2 rounded border border-5 border-primary col-md-auto">
+              <br>
+              <span> 요구되는 서명 수 : </span>
+              <span class="text-primary" id="quorum"></span>
+              <br>
+              <span> 총 트랜잭션 개수 : </span>
+              <span class="text-primary" id="tx_count"></span>
+              <br>
+              <span id="owner-list"> owner 리스트: </span>
+              
+            <br>
+            </div>
+            <form id="tokenForm">
+              <div class="mb-3">
+                <label for="addressFromWallet" class="form-label"
+                  >지갑주소</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ENTER TOKEN NAME"
+                  id="addressFromWallet"
+                  readonly
+                />
+              </div>
+            </form>
+
+
+
+            <div class="mb-3">
+              <label for="addressFromWallet" class="form-label"
+                >제출가능한 트랜잭션들</label
+              >
+              <div class="mb-3">
+                <label for="addressFromWallet" class="form-label"
+                  >추가할 지갑주소</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ENTER TOKEN NAME"
+                  id="address-to-add"
+                />
+              </div>
+              <div class="mb-5">
+                <button class="btn btn-primary" type="button" id="ownerAdd-tx">
+                  add-new-owner
+                </button>
+              </div>
+
+              <div class="mb-5">
+                <button class="btn btn-primary" type="button" id="submit-tx-erc20">
+                  erc20 인출하기
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button class="btn btn-primary" type="button" id="check-txid">
+                트랜잭션 내역들 불러오기
+              </button>
+            </div>
+
+            <h1 class="text-center mb-4">Tx 리스트</h1>
+            <div class="container" id="txid_list">
+            </div>
+            <div class="mb-3">
+              <label for="proposal-id" class="form-label"
+                >실행할 트랜잭션 아이디 (숫자)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="txid-Input"
+              />
+              
+              <div class="mb-5">
+                <button class="btn btn-primary" type="button" id="confirm-tx">
+                  confirm TX
+                </button>
+              </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="mt-5 mb-3" id="jsGrid"></div>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
+    <!-- 필요한 JavaScript 파일들을 추가합니다 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"
+    ></script>
+    <script src="src/abi/constant.js"></script>
+    <script src="javascripts/crypto.js"></script>
+    <script src="javascripts/jsgrid.js"></script>
+    <script src="src/abi/MyERC20.js"></script>
+    <script src="src/abi/MyGovernor.js"></script>
+    <script src="src/abi/MyMultisig.js"></script>
+    <script src="src/utils/noExponents.js"></script>
+    <script src="javascripts/multisig.js"></script>
+</body>
+</html>

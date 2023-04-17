@@ -26,4 +26,8 @@ router.get("/dao", function (req, res, next) {
 router.get("/vote", function (req, res, next) {
   res.render("vote", { title: "vote tutorial"});
 });
+
+router.get("/multisig", function (req, res, next) {
+  res.render("multisig", { title: "multisig tutorial"});
+});
 module.exports = router;
