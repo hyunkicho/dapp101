@@ -321,9 +321,28 @@ btn-primary, btn-secondary 클래스 등은 버튼의 색상을 나타내는 클
     javascripts의 crypto.js를 보면 data가 주가 되어 있는데 data를 만들어서 클릭시에 트랜잭션을 보내주면 되게 됩니다.
 
 4. 기본 토큰 배포하기
-기존에 쓰던 .env파일을 contracts 경로에 그대로 만든다.
-   ```
-    npx hardhat run scripts/deploy.ts --network bsc
+
+.env파일 생성
+각 컨트렉트를 배포하며 주소가 나올 경우 env 파일에서 업데이트 진행
+
+```
+PUBLIC_KEY=''
+TEST_PUBLIC_KEY=''
+PRIVATE_KEY=''
+TEST_PRIVATE_KEY=''
+ERC20=""
+ERC721=""
+GOVERNOR=""
+MULSIG=""
+ERC1155="";
+RPC_URL='https://ethereum-goerli-rpc.allthatnode.com'
+RPC_URL_MATIC='https://polygon-testnet-rpc.allthatnode.com:8545'
+RPC_URL_BSC='https://bsc-testnet-rpc.allthatnode.com'
+RPC_URL_KLAYTN='https://klaytn-baobab-rpc.allthatnode.com:8551'
+
+각 네트워크에 맞게 각 컨트렉트를 순서대로 배포한다. (강의에서는 matic을 사용하지만 다른 체인도 가능하다.)
+   ``` 
+    npx hardhat run scripts/deploy.ts --network matic
    ```
 
 배포 후에는 배포 된 컨트렉트와 상호작용이 가능한 2가지 요소를 사용한다.
@@ -338,13 +357,11 @@ erc20 contract is deployed to 0x39e813A5c0C98066C9c8Ebe1E6a2B23Bf2bE4357
 
 5. 프로그램 구동시키기
 
-npm run start를 실행한다. \n
-그 후에는 127.0.0.1:3000/token 에 접속해서 ICO 페이지를 살펴본다.
+먼저 public/src/constant.js 파일에 4번에서 배포한 CA주소를 넣어준다.
 
-5. NFT 배포하기
+npm run start를 실행한다.
 
-```
-hyunkicho@Hyunkiui-MacBookPro contracts % npx hardhat run scripts/deployNft.ts --network bsc
-deploying TestToken contract
-erc721 contract is deployed to 0x77Bbcdaa4956DdD2C22140220467D36f3C145608
-```
+그 후에는 127.0.0.1:3000/ 에 접속 후 사이드바를 클릭해서 각 페이지에서 실습이 가능하다.
+
+
+

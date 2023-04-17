@@ -1,9 +1,9 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const owners = [
-    process.env.PUBLIC_KEY,
-    process.env.TEST_PUBLIC_KEY,
+  const owners: Array<string> = [
+    process.env.PUBLIC_KEY!,
+    process.env.TEST_PUBLIC_KEY!,
   ]
   console.log('deploying multisig contract')
   const Multisig = await ethers.getContractFactory("MultiSigWallet");

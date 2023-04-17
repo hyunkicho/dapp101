@@ -1,7 +1,5 @@
 import { ethers } from "hardhat";
-const ERC20 = "0x39e813A5c0C98066C9c8Ebe1E6a2B23Bf2bE4357";
-const ERC721 = "0x6AbD56B9Dff6E1ac6c2eF1347974b1f2592a600F";
-const GOVERNOR = "0x8798d99DC878df94A41CB547008579787AC7541e";
+const ERC721 = process.env.ERC721!;
 //bsc testnet
 async function main() {
   console.log('deploying Governor contract')
