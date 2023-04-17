@@ -35,6 +35,7 @@ $(document).ready(async function () {
 
   $("#check-txid").click(async function (event) {
     const tx_count = await multisigWallet.transactionCount();
+    $("#txid_list").empty();
     console.log("tx_count >>", tx_count)
     //전체 목록 보여지게 진행
     const txids = await multisigWallet.getTransactionIds(0, tx_count, true, false);
