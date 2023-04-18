@@ -22,7 +22,7 @@ $(document).ready(async function () {
       event.preventDefault();
       let data = await pushERC20Transfer(
         erc20Token,
-        accounts,
+        accounts[0],
         provider,
         abi
       );

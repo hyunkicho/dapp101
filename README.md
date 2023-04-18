@@ -377,13 +377,7 @@ env파일에 기록된 컨트렉트들에 대한 CA와 ABI를 각각 public/src/
 https://chainlist.org/
 
 실습의 경우 아래 정보로 메타마스크에 등록하였다.
-```
-Network Name: Mumbai Testnet
-New RPC URL: https://rpc-mumbai.maticvigil.com/
-Chain ID: 80001
-Currency Symbol: MATIC
-Block Explorer URL: https://polygonscan.com/
-```
+https://chainlist.org/chain/97
 
 먼저 public/src/constant.js 파일에 4번에서 배포한 CA주소를 넣어준다.
 
