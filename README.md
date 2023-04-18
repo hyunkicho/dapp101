@@ -385,5 +385,16 @@ npm run start를 실행한다.
 
 그 후에는 127.0.0.1:3000/ 에 접속 후 사이드바를 클릭해서 각 페이지에서 실습이 가능하다.
 
+6. DAO 설계
 
+https://mermaid.live/edit#pako:eNpdUD1rw0AM_SuH5mTIkMVDF6c1HdpCmnQot4g7OTHYkpF1SYrt_95LU-iHpqf3AY83QpBIUEDdyjkcUc3tNp5dvueH3cuZSd1yeTcFHMy9idHkqvKm74dvrVfpZfilVOVYyYmURV0QNsVg878QXSgk-xO68m7KJfhAbr99nO635Wq1XnuGBXSkHTYxNx2vfg92pI48FBlGqjG15sHznK2YTF4_OEBhmmgBqY9otGnwoNhBUWM7ZLZHfhf5-Sk2Jvp0W-NrlPkTUDhdPQ
+
+```
+flowchart TD
+    NFTOwner -->|cast Vote| GC
+    User -->|propose| GC
+    GC{Governor contract}
+    User -->|execute| GC
+    GC --> |change URI|ERC1155
+```
 

@@ -112,7 +112,7 @@ function getTokenMetaData(tokenId) {
       });
 
       // contract owner 인지 체크 후 관리자 함수 표시
-      const contractOwner = await erc721Token.ownerOf(tokenId);
+      const contractOwner = await erc721Token.owner();
       if (contractOwner == accountChecksum) {
         console.log(" is owner");
       } else {
