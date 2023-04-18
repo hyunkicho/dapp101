@@ -527,7 +527,7 @@ progress {
 
 .display-1 {
   font-size: calc(1.625rem + 4.5vw);
-  font-weight: 300;
+  font-weight: 600;
   line-height: 1.2;
 }
 @media (min-width: 1200px) {
@@ -11810,6 +11810,8 @@ html {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
+  width: 100%;
 }
 .callout h2,
 .callout .h2 {
