@@ -96,6 +96,17 @@ $(document).ready(async function () {
       );
     });
 
+    $("#checkbtn").click(async function (event) {
+      event.preventDefault();
+      let EthAmount = $("#inputEthAmount").val();
+      const ether_amount = noExponents((EthAmount * 10 ** 18).toString());
+      const hex_value = parseInt(EthAmount * 10 ** 18).toString(16);
+      const exchangeAmount = await erc20Token.getExchangeRate(ether_amount);
+      $("#inputTokenAmount").val(
+        exchangeAmount.div(noExponents((10 ** 18).toString())).toString()
+      );
+    })
+
     $("#sendTXbtn").click(async function (event) {
       event.preventDefault();
       let EthAmount = $("#inputEthAmount").val();
