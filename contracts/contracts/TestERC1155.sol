@@ -22,7 +22,7 @@ contract TestERC1155 is ERC1155PresetMinterPauser, Ownable {
 
     constructor(address _governor) ERC1155PresetMinterPauser("1") {
         governor = _governor;
-        _setURI(0,"metadata_collectible_bad/0");
+        _setURI(0,"series1/0");
         mint(msg.sender,0,10,''); //data is needed only when neccessary
     }
 

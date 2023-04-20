@@ -29,75 +29,6 @@ $(document).ready(async function () {
 
       $("#delegate-address").val(accounts[0]);
 
-    //checksum address 로 비교해야 한다.
-    const accountChecksum = ethers.utils.getAddress(accounts[0]);
-    const owner = await governor.owner();
-    console.log("owner is : ", owner);
-    if (owner == accountChecksum) {
-      console.log(" is owner");
-    } else {
-      console.log("not owner");
-      $("#withdraw").addClass("collapse");
-      $("#eventbtn_withdraw").addClass("collapse");
-    }
-
-    $("#check-vote").click(async function (event) {
-      const weight = await erc721Token.getVotes(accounts[0]);
-      console.log(weight)
-      $("#weigth").text(weight);
-    })
-
-    $("#proposalbtn").click(async function (event) {
-      event.preventDefault();
-      // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
-      const proposalExplain = $("#proposal-input").val();
-      governorCalldata =
-        governor.interface.encodeFunctionData("propose",[
-        [GOVERNOR],
-        [0],
-        ['0x'],
-        proposalExplain
-        ]);
-      ethereum
-        .request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: accounts[0],
-              to: GOVERNOR,
-              value: "0",
-              data: governorCalldata,
-            },
-          ],
-        })
-        //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
-        .then((txHash) => alert(txHash))
-        .catch((error) => console.error(error));
-    });
-
-    $("#delegate").click(async function (event) {
-      event.preventDefault();
-      const delegate_address = $("#delegate-address").val();
-      console.log("delegate-address >>", delegate_address);
-      // changeTokenURICalldata = erc721Token.interface.encodeFunctionData("transfer", ["newuri"]);
-      delegatingCall = erc721Token.interface.encodeFunctionData("delegate",[delegate_address]);
-      ethereum
-        .request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: accounts[0],
-              to: ERC721,
-              value: "0",
-              data: delegatingCall,
-            },
-          ],
-        })
-        //TODO 트랜잭션이 완료되었다고 띄우면서 트랜잭션 해시 보여주기
-        .then((txHash) => alert(txHash))
-        .catch((error) => console.error(error));
-    })
-
     $("#cast-btn").click(async function (event) {
       event.preventDefault();
       const proposalInput = $("#proposal-Input").val();
@@ -247,11 +178,18 @@ $(document).ready(async function () {
       const calldatas = $("#calldatas").text();
       const descriptionHash = ethers.utils.id(description_raw);
 
-      console.log("description_raw : ",description_raw);
+      console.log(description_raw);
       console.log("targets : ",targets);
       console.log("calldatas : ",calldatas);
       console.log("descriptionHash : ",descriptionHash);
 
+      const estimation = await governor.estimateGas.execute(
+          [targets], //targets
+          [0], //values
+          [calldatas], //calldatas
+          descriptionHash // description
+      );
+      console.log(estimation)
       const executeCalldata =
         governor.interface.encodeFunctionData("execute",[
           [targets], //targets
