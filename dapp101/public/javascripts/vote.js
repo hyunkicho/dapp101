@@ -3,8 +3,6 @@ $(document).ready(async function () {
     const signer = provider.getSigner();
     let abi_governor = JSON.parse(JSON.stringify(MYGOVERNOR.abi));
     const governor = new ethers.Contract(GOVERNOR, abi_governor, signer);
-    let abi_erc721 = JSON.parse(JSON.stringify(MYERC721.abi));
-    const erc721Token = new ethers.Contract(ERC721, abi_erc721, signer);
     const accounts = await ethereum.request({
       method: "eth_requestAccounts",
     });

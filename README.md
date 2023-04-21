@@ -398,3 +398,10 @@ flowchart TD
     GC --> |change URI|ERC1155
 ```
 
+(블록을 많이 저장하고 있는 노드들)
+
+* all that node endpoint
+https://www.allthatnode.com/bsc.dsrv
+
+*chainlist endpoint
+https://chainlist.org/chain/97
