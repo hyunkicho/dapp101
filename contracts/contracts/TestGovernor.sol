@@ -12,11 +12,11 @@ contract TestGovernor is Governor, GovernorCountingSimple, GovernorVotes, Ownabl
         GovernorVotes(_token)
     {}
 
-    function votingDelay() public pure override returns (uint256) {
+    function votingDelay() public view override returns (uint256) {
         return 9; // 9 block to snap shot
     }
 
-    function votingPeriod() public pure override returns (uint256) {
+    function votingPeriod() public view override returns (uint256) {
         return 30; // 30 block to vote
     }
 
