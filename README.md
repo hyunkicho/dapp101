@@ -9,6 +9,8 @@ repo for a dapp developer. basic tutorial with token, nft, dao, multisig
 const startBlock = 71545565; //배포된 시점의 블록으로 만약 endpoint가 무료일 경우 최신 블록만 조회되도록 제한되기도 한다.
 ```
 - 코드 내용을 리드미에 추가 시킬 때 "```meraid" 이런식으로 작성하면 readme 안에 meramaid 산출물을 넣을 수 있다.
+- 위믹스 테스트 코인 구하기 https://wallet.test.wemix.com/faucet
+- 메타디움 테스트 코인 구하기 https://testnetfaucet.metadium.com/
 
 ## 프로젝트 설명
 1. 전체 구조 그려보기
@@ -359,15 +361,15 @@ RPC_URL_KLAYTN='https://klaytn-baobab-rpc.allthatnode.com:8551'
 컨트렉트 아래 순서대로 배포하고 env파일 업데이트
 
 ``` 
-npx hardhat run scripts/deploy.ts --network matic 
+npx hardhat run scripts/deploy.ts --network wemixTestnet 
 //erc20 배포 후 env에 주소 넣기
-npx hardhat run scripts/deployNft.ts --network matic  
+npx hardhat run scripts/deployNft.ts --network wemixTestnet  
 //erc721 배포 후 env에 주소 넣기
-npx hardhat run scripts/deployGovernor.ts --network matic 
+npx hardhat run scripts/deployGovernor.ts --network wemixTestnet 
 //governor 배포 후 env에 주소 넣기
-npx hardhat run scripts/deployCollectible.ts --network matic
+npx hardhat run scripts/deployCollectible.ts --network wemixTestnet
 //erc1155 배포 후 env에 주소 넣기
-npx hardhat run scripts/deployMultisig.ts --network matic
+npx hardhat run scripts/deployMultisig.ts --network wemixTestnet
 ```
 
 배포 후에는 배포 된 컨트렉트와 상호작용이 가능한 2가지 요소를 사용한다.
