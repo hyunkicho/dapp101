@@ -27,7 +27,17 @@ const config: HardhatUserConfig = {
     klaytn: {
       url: process.env.RPC_URL_KLAYTN,
       accounts: [process.env.PRIVATE_KEY!, process.env.TEST_PRIVATE_KEY!]
-    }
+    },
+    metatestnet: {
+      url: "https://api.metadium.com/dev",
+      accounts: [process.env.PRIVATE_KEY!],
+      gasPrice: 101 * (10 ** 9),
+    },
+    wemixTestnet: {
+      url: "https://api.test.wemix.com",
+      accounts: [process.env.PRIVATE_KEY!],
+      gasPrice: 101 * (10 ** 9),
+    },
   },
   solidity: {
     version : "0.8.13",

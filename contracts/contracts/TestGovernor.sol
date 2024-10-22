@@ -13,11 +13,11 @@ contract TestGovernor is Governor, GovernorCountingSimple, GovernorVotes, Ownabl
     {}
 
     function votingDelay() public view override returns (uint256) {
-        return 9; // 9 block to snap shot
+        return 30; // 30 block to snap shot
     }
 
     function votingPeriod() public view override returns (uint256) {
-        return 30; // 30 block to vote
+        return 60; // 60 block to vote
     }
 
     // // The following functions are overrides required by Solidity.

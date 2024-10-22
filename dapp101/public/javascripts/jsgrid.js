@@ -1,5 +1,5 @@
 // const startBlock = 34510000; //배포된 시점의 블록으로 만약 endpoint가 무료일 경우 최신 블록만 조회되도록 제한되기도 한다.
-const startBlock = 28546565; //배포된 시점의 블록으로 만약 endpoint가 무료일 경우 최신 블록만 조회되도록 제한되기도 한다.
+const startBlock = 71545565; //배포된 시점의 블록으로 만약 endpoint가 무료일 경우 최신 블록만 조회되도록 제한되기도 한다.
 async function pushERC20Transfer(erc20Token, myAddress, provider, abi) {
   clientsERC20 = []
   console.log("pushERC20Transfer")
