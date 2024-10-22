@@ -1,12 +1,22 @@
 # dapp101 설계
 repo for a dapp developer. basic tutorial with token, nft, dao, multisig
 
+## 참고사항 (2024 update)
+- ethers 관련 cdn이 작동이 중지되어 작동되는 버전으로 올렸습니다.
+- 현재 테스트 네트워크 토큰을 구하기 어렵기 때문에 위믹스/메타디움 기준으로 진행하는 것을 추천드리며 해당 배포 설정은 업데이트 해두었습니다.
+- 이벤트 조회의 경우 지정된 블록부터 순차적으로 다 체크를 하는 로직이기 때문에 실제로 이벤트 조회를 하기 위해서는 public/javascripts 경로에 있는 jsgrid.js 상단에 있는 startblock을 컨트렉트 배포 직후로 설정해주시기 바랍니다.
+```
+const startBlock = 71545565; //배포된 시점의 블록으로 만약 endpoint가 무료일 경우 최신 블록만 조회되도록 제한되기도 한다.
+```
+- 코드 내용을 리드미에 추가 시킬 때 "```meraid" 이런식으로 작성하면 readme 안에 meramaid 산출물을 넣을 수 있다.
+
+## 프로젝트 설명
 1. 전체 구조 그려보기
 
 flow chart
 전체적인 구조는 하나의 웹 페이지 안에서 지갑 주소를 체크하여 관리자 권한인 경우와 아닌 경우를 나누어서 페이지를 표시해 주는 구조로 잡는다.
 
-```
+```mermaid
 flowchart TD
     A[webpage] -->|log in metamask| B(meta mask)
     B --> C{check address}
@@ -28,7 +38,7 @@ https://mermaid.live/edit#pako:eNp1kc1qhDAQgF8l5NTC7gt4KOwqhR52FdxTdQ9TM2pYk0gSK
 
 유저가 웹페이지에서 ERC20 토큰을 mint 해보고 이벤트 로그를 체크해 볼 수 있다.
 
-```
+```mermaid
 sequenceDiagram
     actor user
     participant webpage
@@ -59,7 +69,7 @@ https://mermaid.live/edit#pako:eNqFU01TwjAQ_Ss7OelIGUW99MCMgDNePMnJ6SWmC2RoNzXd8
 
 nft를 erc20 토큰으로 구매해보고 구매내역을 확인해 볼 수 있다.
 
-```
+```mermaid
 sequenceDiagram
     actor user
     participant webpage
@@ -78,7 +88,7 @@ https://mermaid.live/edit#pako:eNqFUrFuwyAQ_ZUTc2w1Xip5iNSoS4YsrbpUXs5wtlFsoBhaW
 
 DAO안건을 제안하고 투표하고 확인해 본다.
 
-```
+```mermaid
 sequenceDiagram
     actor user
     participant webpage
@@ -339,7 +349,7 @@ RPC_URL='https://ethereum-goerli-rpc.allthatnode.com'
 RPC_URL_MATIC='https://polygon-testnet-rpc.allthatnode.com:8545'
 RPC_URL_BSC='https://bsc-testnet-rpc.allthatnode.com'
 RPC_URL_KLAYTN='https://klaytn-baobab-rpc.allthatnode.com:8551'
-
+```
 각 네트워크에 맞게 각 컨트렉트를 순서대로 배포한다. (강의에서는 matic을 사용하지만 다른 체인도 가능하다.)
 
 경로 
@@ -389,7 +399,7 @@ npm run start를 실행한다.
 
 https://mermaid.live/edit#pako:eNpdUD1rw0AM_SuH5mTIkMVDF6c1HdpCmnQot4g7OTHYkpF1SYrt_95LU-iHpqf3AY83QpBIUEDdyjkcUc3tNp5dvueH3cuZSd1yeTcFHMy9idHkqvKm74dvrVfpZfilVOVYyYmURV0QNsVg878QXSgk-xO68m7KJfhAbr99nO635Wq1XnuGBXSkHTYxNx2vfg92pI48FBlGqjG15sHznK2YTF4_OEBhmmgBqY9otGnwoNhBUWM7ZLZHfhf5-Sk2Jvp0W-NrlPkTUDhdPQ
 
-```
+```mermaid
 flowchart TD
     NFTOwner -->|cast Vote| GC
     User -->|propose| GC
@@ -405,3 +415,4 @@ https://www.allthatnode.com/bsc.dsrv
 
 *chainlist endpoint
 https://chainlist.org/chain/97
+
